@@ -185,8 +185,20 @@ Otherwise call `surround-delete'."
     (define-key evil-operator-shortcut-map "s" 'evil-line)
     (call-interactively 'surround-region))))
 
-(evil-define-operator surround-region (beg end type char)
-  "Surround BEG and END with CHAR."
+(evil-define-operator surround-region (beg end type char &optional force-new-line)
+  "Surround BEG and END with CHAR.
+
+When force-new-line is true, and region type is not line, the
+following: (vertical bars indicate region start/end points)
+
+   do |:thing|
+
+Becomes this:
+
+   do {
+     :thing
+   }"
+
   (interactive (list (read-char))) ; CHAR
   (let* ((overlay (make-overlay beg end nil nil t))
          (pair (surround-pair char))
@@ -195,17 +207,35 @@ Otherwise call `surround-delete'."
     (unwind-protect
         (progn
           (goto-char (overlay-start overlay))
-          (insert open)
-          (when (eq type 'line)
-            (indent-according-to-mode)
-            (newline-and-indent))
-          (goto-char (overlay-end overlay))
-          (insert close)
-          (when (eq type 'line)
-            (indent-according-to-mode)
-            (newline))
+
+          (cond ((eq type 'line)
+                 (insert open)
+                 (indent-according-to-mode)
+                 (newline-and-indent)
+                 (goto-char (overlay-end overlay))
+                 (insert close)
+                 (indent-according-to-mode)
+                 (newline))
+
+                (force-new-line
+                 (insert open)
+                 (indent-according-to-mode)
+                 (newline-and-indent)
+                 (goto-char (overlay-end overlay))
+                 (newline-and-indent)
+                 (insert close))
+
+                (t
+                 (insert open)
+                 (goto-char (overlay-end overlay))
+                 (insert close)))
           (goto-char (overlay-start overlay)))
       (delete-overlay overlay))))
+
+(evil-define-operator Surround-region (beg end type char)
+  "Call surround-region, toggling force-new-line"
+  (interactive (list (read-char))) ; CHAR
+  (surround-region beg end type char t))
 
 (define-minor-mode surround-mode
   "Buffer-local minor mode to emulate surround.vim."
@@ -225,7 +255,8 @@ Otherwise call `surround-delete'."
   "Global minor mode to emulate surround.vim.")
 
 (evil-define-key 'operator surround-mode-map "s" 'surround-edit)
-(evil-define-key 'visual surround-mode-map "S" 'surround-region)
+(evil-define-key 'visual surround-mode-map "s" 'surround-region)
+(evil-define-key 'visual surround-mode-map "S" 'Surround-region)
 
 (provide 'surround)
 
