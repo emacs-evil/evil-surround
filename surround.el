@@ -47,6 +47,7 @@
     (?# . ("#{" . "}"))
     (?b . ("(" . ")"))
     (?B . ("{" . "}"))
+    (?> . ("<" . ">"))
     (?t . surround-read-tag)
     (?< . surround-read-tag))
   "Association list of surround items.
