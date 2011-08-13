@@ -98,12 +98,22 @@ See also `surround-inner-overlay'."
     (when (functionp outer)
       (setq outer (funcall outer))
       (when (evil-range-p outer)
-        (when (eq (char-syntax char) ?\()
-          (evil-add-whitespace-before-range outer "[ \t]")
-          (evil-add-whitespace-after-range outer "[ \t]"))
         (setq outer (make-overlay (evil-range-beginning outer)
                                   (evil-range-end outer)
                                   nil nil t))))))
+
+(defun surround-trim-whitespace-from-range (range &optional regexp)
+  "Given an evil-range, trim whitespace around range by shrinking the range such that it neither begins nor ends with whitespace. Does not modify the buffer."
+  (let ((regexp (or regexp "[ \f\t\n\r\v]+")))
+    (save-excursion
+      (save-match-data
+        (goto-char (evil-range-beginning range))
+        (when (looking-at regexp)
+          (evil-set-range-beginning range (1+ (match-end 0))))
+        (goto-char (evil-range-end range))
+        (while (looking-back regexp)
+          (goto-char (match-beginning 0)))
+        (evil-set-range-end range (point))))))
 
 (defun surround-inner-overlay (char)
   "Return inner overlay for the delimited range represented by CHAR.
@@ -114,6 +124,8 @@ See also `surround-outer-overlay'."
     (when (functionp inner)
       (setq inner (funcall inner))
       (when (evil-range-p inner)
+        (when (eq (char-syntax char) ?\()
+          (surround-trim-whitespace-from-range inner "[ \t]"))
         (setq inner (make-overlay (evil-range-beginning inner)
                                   (evil-range-end inner)
                                   nil nil t))))))
