@@ -104,15 +104,14 @@ See also `surround-inner-overlay'."
 
 (defun surround-trim-whitespace-from-range (range &optional regexp)
   "Given an evil-range, trim whitespace around range by shrinking the range such that it neither begins nor ends with whitespace. Does not modify the buffer."
-  (let ((regexp (or regexp "[ \f\t\n\r\v]+")))
+  (let ((regexp (or regexp "[ \f\t\n\r\v]")))
     (save-excursion
       (save-match-data
         (goto-char (evil-range-beginning range))
-        (when (looking-at regexp)
-          (evil-set-range-beginning range (1+ (match-end 0))))
+        (while (looking-at regexp) (forward-char))
+        (evil-set-range-beginning range (point))
         (goto-char (evil-range-end range))
-        (while (looking-back regexp)
-          (goto-char (match-beginning 0)))
+        (while (looking-back regexp) (backward-char))
         (evil-set-range-end range (point))))))
 
 (defun surround-inner-overlay (char)
