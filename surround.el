@@ -41,9 +41,14 @@
   :group 'evil)
 
 (defcustom surround-pairs-alist
-  '((?\( . ?\))
-    (?\[ . ?\])
-    (?{ . ?})
+  '((?\( . ("( " . " )"))
+    (?\[ . ("[ " . " ]"))
+    (?\{ . ("{ " . " }"))
+
+    (?\) . ("(" . ")"))
+    (?\] . ("[" . "]"))
+    (?\} . ("{" . "}"))
+
     (?# . ("#{" . "}"))
     (?b . ("(" . ")"))
     (?B . ("{" . "}"))
@@ -74,20 +79,18 @@ This only affects inserting pairs, not deleting or changing them."
           (format "</%s>" (or tag "")))))
 
 (defun surround-pair (char)
-  "Return the surround pair of CHAR.
+  "Return the surround pair of char.
 This is a cons cell (LEFT . RIGHT), both strings."
-  (let* ((open (or (car (rassoc char surround-pairs-alist)) char))
-         (close (or (cdr (assoc char surround-pairs-alist)) char)))
+  (let ((pair (assoc-default char surround-pairs-alist)))
     (cond
-     ((functionp close)
-      (funcall close))
-     ((consp close)
-      close)
-     ((eq (char-syntax char) ?\()
-      ;; add whitespace
-      (cons (format "%c " open) (format " %c" close)))
+     ((functionp pair)
+      (funcall pair))
+
+     ((consp pair)
+      pair)
+
      (t
-      (cons (format "%c" open) (format "%c" close))))))
+      (cons (format "%c" char) (format "%c" char))))))
 
 (defun surround-outer-overlay (char)
   "Return outer overlay for the delimited range represented by CHAR.
