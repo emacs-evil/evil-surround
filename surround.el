@@ -211,7 +211,7 @@ Becomes this:
      :thing
    }"
 
-  (interactive (list (read-char))) ; CHAR
+  (interactive "<R>c")
   (let* ((overlay (make-overlay beg end nil nil t))
          (pair (surround-pair char))
          (open (car pair))
@@ -246,7 +246,7 @@ Becomes this:
 
 (evil-define-operator Surround-region (beg end type char)
   "Call surround-region, toggling force-new-line"
-  (interactive (list (read-char))) ; CHAR
+  (interactive "<R>c")
   (surround-region beg end type char t))
 
 (define-minor-mode surround-mode
