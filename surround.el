@@ -62,6 +62,7 @@ This only affects inserting pairs, not deleting or changing them."
   :group 'surround
   :type '(repeat (cons (regexp :tag "Key")
                        (symbol :tag "Surround pair"))))
+(make-variable-buffer-local 'surround-pairs-alist)
 
 (defvar surround-read-tag-map
   (let ((map (copy-keymap minibuffer-local-map)))
