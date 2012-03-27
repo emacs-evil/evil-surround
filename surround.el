@@ -101,6 +101,7 @@ See also `surround-inner-overlay'."
     (when (functionp outer)
       (setq outer (funcall outer))
       (when (evil-range-p outer)
+        (surround-trim-whitespace-from-range outer "[ \t]")
         (setq outer (make-overlay (evil-range-beginning outer)
                                   (evil-range-end outer)
                                   nil nil t))))))
