@@ -251,19 +251,23 @@ Becomes this:
   (interactive "<R>c")
   (surround-region beg end type char t))
 
+;;;###autoload
 (define-minor-mode surround-mode
   "Buffer-local minor mode to emulate surround.vim."
   :keymap (make-sparse-keymap)
   (evil-normalize-keymaps))
 
+;;;###autoload
 (defun turn-on-surround-mode ()
   "Enable surround-mode in the current buffer."
   (surround-mode 1))
 
+;;;###autoload
 (defun turn-off-surround-mode ()
   "Disable surround-mode in the current buffer."
   (surround-mode -1))
 
+;;;###autoload
 (define-globalized-minor-mode global-surround-mode
   surround-mode turn-on-surround-mode
   "Global minor mode to emulate surround.vim.")
