@@ -132,6 +132,7 @@ See also `surround-outer-overlay'."
                                   (evil-range-end inner)
                                   nil nil t))))))
 
+;;;###autoload
 (defun surround-delete (char &optional outer inner)
   "Delete the surrounding delimiters represented by CHAR.
 Alternatively, the text to delete can be represented with
@@ -155,6 +156,7 @@ between these overlays is what is deleted."
         (when outer (delete-overlay outer))
         (when inner (delete-overlay inner)))))))
 
+;;;###autoload
 (defun surround-change (char &optional outer inner)
   "Change the surrounding delimiters represented by CHAR.
 Alternatively, the text to delete can be represented with the
