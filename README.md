@@ -114,3 +114,15 @@ visual mode) followed by `S<p class="important">`.
     <p class="important">
       <em>Hello</em> world!
     </p>
+
+Suppose you want to call a function on your visual selection or a text
+object. You can simply press `f` instead of the aforementioned keys
+and are then prompted for a functionname in the minibuffer, like with
+the tags. So with:
+
+	"Hello world!"
+
+... after selecting the string, then pressing `sf`, entering `print`
+and pressing return you would get
+
+    print("Hello world!")

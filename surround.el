@@ -54,7 +54,8 @@
     (?B . ("{" . "}"))
     (?> . ("<" . ">"))
     (?t . surround-read-tag)
-    (?< . surround-read-tag))
+    (?< . surround-read-tag)
+    (?f . surround-function))
   "Association list of surround items.
 Each item is of the form (TRIGGER . (LEFT . RIGHT)), all strings.
 Alternatively, a function can be put in place of (LEFT . RIGHT).
@@ -69,6 +70,12 @@ This only affects inserting pairs, not deleting or changing them."
     (define-key map ">" 'exit-minibuffer)
     map)
   "Keymap used by `surround-read-tag'.")
+
+(defun surround-function ()
+  "Read a functionname from the minibuffer and wrap selection in function call"
+  (let ((fname (read-from-minibuffer "" "" )))
+    (cons (format "%s(" (or fname ""))
+          ")")))
 
 (defun surround-read-tag ()
   "Read a XML tag from the minibuffer."
