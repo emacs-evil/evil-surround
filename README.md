@@ -95,8 +95,7 @@ space): `cs]{`
 
     { Hello } world!
 
-Now wrap the entire line in parentheses with `yssb` or `yss)` (wrapping the line
-is currently broken see [issue #5](https://github.com/timcharper/evil-surround/issues/5)).
+Now wrap the entire line in parentheses with `yssb` or `yss)`.
 
     ({ Hello } world!)
 
