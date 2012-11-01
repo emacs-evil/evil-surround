@@ -139,6 +139,16 @@ See also `surround-outer-overlay'."
                                   (evil-range-end inner)
                                   nil nil t))))))
 
+(evil-define-motion surround-line (count)
+  "Move COUNT - 1 lines down but return exclusive character motion."
+  :type exclusive
+  (let ((beg (line-beginning-position)))
+    (evil-line count)
+    (end-of-line)
+    (let ((range (evil-range beg (point) 'exclusive)))
+      (evil-expand-range range)
+      range)))
+
 ;;;###autoload
 (defun surround-delete (char &optional outer inner)
   "Delete the surrounding delimiters represented by CHAR.
@@ -205,7 +215,7 @@ Otherwise call `surround-delete'."
    ((eq operation 'delete)
     (call-interactively 'surround-delete))
    (t
-    (define-key evil-operator-shortcut-map "s" 'evil-line)
+    (define-key evil-operator-shortcut-map "s" 'surround-line)
     (call-interactively 'surround-region))))
 
 (evil-define-operator surround-region (beg end type char &optional force-new-line)
