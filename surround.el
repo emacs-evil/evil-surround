@@ -198,7 +198,9 @@ Otherwise call `surround-delete'."
      (setq evil-inhibit-operator t)
      (list (assoc-default evil-this-operator
                           '((evil-change . change)
-                            (evil-delete . delete))))))
+                            (evil-delete . delete)
+                            (evil-paredit-change . change)
+                            (evil-paredit-delete . delete))))))
   (cond
    ((eq operation 'change)
     (call-interactively 'surround-change))
