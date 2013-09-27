@@ -65,6 +65,15 @@ This only affects inserting pairs, not deleting or changing them."
                        (symbol :tag "Surround pair"))))
 (make-variable-buffer-local 'surround-pairs-alist)
 
+(defcustom surround-operator-alist
+  '((evil-change . change)
+    (evil-delete . delete))
+  "Association list of operators to their fundamental operation.
+Each item is of the form (OPERATOR . OPERATION)."
+  :group 'surround
+  :type '(repeat (cons (symbol :tag "Operator")
+                       (symbol :tag "Operation"))))
+
 (defvar surround-read-tag-map
   (let ((map (copy-keymap minibuffer-local-map)))
     (define-key map ">" 'exit-minibuffer)
@@ -197,10 +206,7 @@ Otherwise call `surround-delete'."
      ;; abort the calling operator
      (setq evil-inhibit-operator t)
      (list (assoc-default evil-this-operator
-                          '((evil-change . change)
-                            (evil-delete . delete)
-                            (evil-paredit-change . change)
-                            (evil-paredit-delete . delete))))))
+                          surround-operator-alist))))
   (cond
    ((eq operation 'change)
     (call-interactively 'surround-change))
