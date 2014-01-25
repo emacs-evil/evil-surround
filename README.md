@@ -18,7 +18,7 @@ or in normal-state with `ys<textobject><trigger>`.
 You can change a surrounding with `cs<old-trigger><new-trigger>`.
 
 ## Delete surrounding ##
-You can delete a surrounding with `cd<old-trigger><new-trigger>`.
+You can delete a surrounding with `ds<old-trigger><new-trigger>`.
 
 ## Add new surround pairs ##
 A surround pair is this (trigger char with textual left and right strings):
