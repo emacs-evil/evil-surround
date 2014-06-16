@@ -226,7 +226,7 @@ Otherwise call `evil-surround-delete'."
     (define-key evil-operator-shortcut-map "s" 'evil-surround-line)
     (call-interactively 'evil-surround-region))))
 
-(evil-define-operator surround-region (beg end type char &optional force-new-line)
+(evil-define-operator evil-surround-region (beg end type char &optional force-new-line)
   "Surround BEG and END with CHAR.
 
 When force-new-line is true, and region type is not line, the
@@ -273,7 +273,7 @@ Becomes this:
           (goto-char (overlay-start overlay)))
       (delete-overlay overlay))))
 
-(evil-define-operator Surround-region (beg end type char)
+(evil-define-operator evil-Surround-region (beg end type char)
   "Call surround-region, toggling force-new-line"
   (interactive "<R>c")
   (evil-surround-region beg end type char t))
