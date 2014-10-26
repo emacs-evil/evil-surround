@@ -36,7 +36,7 @@
 (require 'evil)
 
 (defgroup surround nil
-  "surround.vim for Emacs"
+  "Surround.vim for Emacs."
   :prefix "surround-"
   :group 'evil)
 
@@ -74,6 +74,11 @@ Each item is of the form (OPERATOR . OPERATION)."
   :type '(repeat (cons (symbol :tag "Operator")
                        (symbol :tag "Operation"))))
 
+(defcustom evil-surround-keep-point nil
+  "If set to t, the point will not move when surrounding,
+changing or deleting."
+  :group 'surround)
+
 (defvar evil-surround-read-tag-map
   (let ((map (copy-keymap minibuffer-local-map)))
     (define-key map ">" 'exit-minibuffer)
@@ -102,10 +107,8 @@ This is a cons cell (LEFT . RIGHT), both strings."
     (cond
      ((functionp pair)
       (funcall pair))
-
      ((consp pair)
       pair)
-
      (t
       (cons (format "%c" char) (format "%c" char))))))
 
@@ -118,9 +121,9 @@ See also `evil-surround-inner-overlay'."
       (setq outer (funcall outer))
       (when (evil-range-p outer)
         (evil-surround-trim-whitespace-from-range outer "[[:space:]]")
-        (setq outer (make-overlay (evil-range-beginning outer)
-                                  (evil-range-end outer)
-                                  nil nil t))))))
+	(setq outer (make-overlay (evil-range-beginning outer)
+				  (evil-range-end outer)
+				  nil nil t))))))
 
 (defun evil-surround-trim-whitespace-from-range (range &optional regexp)
   "Given an evil-range, trim whitespace around range by shrinking the range such that it neither begins nor ends with whitespace. Does not modify the buffer."
@@ -142,7 +145,7 @@ See also `evil-surround-outer-overlay'."
     (when (functionp inner)
       (setq inner (funcall inner))
       (when (evil-range-p inner)
-        (when (eq (char-syntax char) ?\()
+        (when (eq (char-syntax char) ?\() 
           (evil-surround-trim-whitespace-from-range inner "[[:space:]]"))
         (setq inner (make-overlay (evil-range-beginning inner)
                                   (evil-range-end inner)
@@ -170,7 +173,9 @@ between these overlays is what is deleted."
    ((and outer inner)
     (delete-region (overlay-start outer) (overlay-start inner))
     (delete-region (overlay-end inner) (overlay-end outer))
-    (goto-char (overlay-start outer)))
+    (if evil-surround-keep-point
+	(goto-char *pos*)
+      (goto-char (overlay-start outer))))
    (t
     ;; no overlays specified: create them on the basis of CHAR
     ;; and delete after use
@@ -192,8 +197,8 @@ overlays OUTER and INNER, which are passed to `evil-surround-delete'."
    ((and outer inner)
     (evil-surround-delete char outer inner)
     (evil-surround-region (overlay-start outer)
-                     (overlay-end outer)
-                     nil (read-char)))
+			  (overlay-end outer)
+			  nil (read-char)))
    (t
     (let* ((outer (evil-surround-outer-overlay char))
            (inner (evil-surround-inner-overlay char)))
@@ -217,6 +222,9 @@ Otherwise call `evil-surround-delete'."
      (setq evil-inhibit-operator t)
      (list (assoc-default evil-this-operator
                           evil-surround-operator-alist))))
+  ;; Save point to get back to it.
+  ;; See evil-surround-keep-point
+  (setq *pos* (point))
   (cond
    ((eq operation 'change)
     (call-interactively 'evil-surround-change))
@@ -270,7 +278,9 @@ Becomes this:
                  (insert open)
                  (goto-char (overlay-end overlay))
                  (insert close)))
-          (goto-char (overlay-start overlay)))
+         (if evil-surround-keep-point 
+	     (goto-char  (+ (length open) *pos*))
+	   (goto-char (overlay-start overlay))))
       (delete-overlay overlay))))
 
 (evil-define-operator evil-Surround-region (beg end type char)
