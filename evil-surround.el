@@ -74,11 +74,6 @@ Each item is of the form (OPERATOR . OPERATION)."
 
 (defcustom evil-surround-keep-point nil
   "If set to t, the point will not move when surrounding,
-	   changing or deleting."
-  :group 'surround)
-
-(defcustom evil-surround-keep-point nil
-  "If set to t, the point will not move when surrounding,
 changing or deleting."
   :group 'surround)
 
@@ -170,6 +165,20 @@ changing or deleting."
       (evil-expand-range range)
       range)))
 
+; This function can cause probelms if executed outside of the
+; parens of a function call. 
+(defun evil-surround-delete-function ()
+  "Delete a function, with the surrounding parens."
+  (interactive)
+  (when (re-search-backward "(" nil t)
+    (let* ((n (skip-syntax-backward "w_"))
+	   ; Make it positive, and add 1 to include the
+	   ; opening paren.
+	   (n (+ 1 (* (- 1) n))))
+      (delete-char n)))
+  (when (re-search-forward ")" nil t)
+    (replace-match "")))
+
 ;;;###autoload
 (defun evil-surround-delete (char &optional outer inner)
   "Delete the surrounding delimiters represented by CHAR.
@@ -183,6 +192,11 @@ changing or deleting."
     (delete-region (overlay-start outer) (overlay-start inner))
     (delete-region (overlay-end inner) (overlay-end outer))
     (goto-char (overlay-start outer)))
+   ;; If char is f, we want to delete a function, and
+   ;; evil will have not overlay for ?f. So we must do it
+   ;; ourselves.
+   ((char-equal char ?f)
+    (funcall 'evil-surround-delete-function))
    (t
     ;; no overlays specified: create them on the basis of CHAR
     ;; and delete after use
@@ -242,16 +256,16 @@ changing or deleting."
 (evil-define-operator evil-surround-region (beg end type char &optional force-new-line)
   "Surround BEG and END with CHAR.
 
-		      When force-new-line is true, and region type is not line, the
-		      following: (vertical bars indicate region start/end points)
+When force-new-line is true, and region type is not line, the
+following: (vertical bars indicate region start/end points)
 
-		      do |:thing|
+    do |:thing|
 
-		      Becomes this:
+    Becomes this:
 
-		      do {
-		      :thing
-		      }"
+    do {
+    :thing
+    }"
 
   (interactive "<R>c")
   (let* ((overlay (make-overlay beg end nil nil t))
