@@ -167,15 +167,17 @@ changing or deleting."
 
 ; This function can cause probelms if executed outside of the
 ; parens of a function call. 
+(defun evil-surround-delete-backward-to-ws ()
+  "Delete backward until a white-space."
+  (delete-region
+   (point) (save-excursion (skip-syntax-backward "^ ") (point))))
+
 (defun evil-surround-delete-function ()
   "Delete a function, with the surrounding parens."
   (interactive)
   (when (re-search-backward "(" nil t)
-    (let* ((n (skip-syntax-backward "w_"))
-	   ; Make it positive, and add 1 to include the
-	   ; opening paren.
-	   (n (+ 1 (* (- 1) n))))
-      (delete-char n)))
+    (replace-match "")
+    (evil-surround-delete-backward-to-ws))
   (when (re-search-forward ")" nil t)
     (replace-match "")))
 
@@ -190,8 +192,7 @@ changing or deleting."
   (cond
    ((and outer inner)
     (delete-region (overlay-start outer) (overlay-start inner))
-    (delete-region (overlay-end inner) (overlay-end outer))
-    (goto-char (overlay-start outer)))
+    (delete-region (overlay-end inner) (overlay-end outer)))
    ;; If char is f, we want to delete a function, and
    ;; evil will have not overlay for ?f. So we must do it
    ;; ourselves.
@@ -294,8 +295,7 @@ following: (vertical bars indicate region start/end points)
 		(t
 		 (insert open)
 		 (goto-char (overlay-end overlay))
-		 (insert close)))
-	  (goto-char (overlay-start overlay)))
+		 (insert close))))
       (delete-overlay overlay))))
 
 (evil-define-operator evil-Surround-region (beg end type char)
