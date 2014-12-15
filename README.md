@@ -11,7 +11,7 @@ Alternatively, you can enable surround-mode along a major mode by adding
 This package uses [Evil](https://gitorious.org/evil) as its vi layer.
 
 ## Add surrounding ##
-You can surround in visual-state with `s<textobject><trigger>`
+You can surround in visual-state with `S<textobject><trigger>`
 or in normal-state with `ys<textobject><trigger>`.
 
 ## Change surrounding ##
