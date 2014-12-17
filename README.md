@@ -1,3 +1,5 @@
+# Overview
+
 This package emulates [surround.vim by Tim Pope](https://github.com/tpope/vim-surround).
 The functionality is wrapped into a minor mode.
 To enable it globally, add the following lines to ~/.emacs:
@@ -138,3 +140,9 @@ the tags. So with:
 and pressing return you would get
 
     print("Hello world!")
+
+# FAAQ (frequently actually asked questions)
+
+## Why does `vs` no longer surround?
+
+This is due to an upstream change in `vim-surround`. It happened in this commit: https://github.com/tpope/vim-surround/commit/6f0984a. See the discussion in this pull request for more details: https://github.com/timcharper/evil-surround/pull/48.
