@@ -74,11 +74,22 @@ Each item is of the form (OPERATOR . OPERATION)."
   :type '(repeat (cons (symbol :tag "Operator")
                        (symbol :tag "Operation"))))
 
+(defcustom evil-surround-keep-point nil
+  "If set to t, the point will not move when surrounding,
+changing or deleting."
+  :group 'surround)
+
 (defvar evil-surround-read-tag-map
   (let ((map (copy-keymap minibuffer-local-map)))
     (define-key map ">" 'exit-minibuffer)
     map)
   "Keymap used by `evil-surround-read-tag'.")
+
+(defmacro evil-surround-save-excursion-if-keep-point (body)
+  "Executes `BODY' wrapped in a `save-excursion' if `evil-surround-keep-point'
+is non-nil.  Otherwise `BODY' is executed without
+`save-excursion'."
+  `(if evil-surround-keep-point (save-excursion ,body) ,body))
 
 (defun evil-surround-function ()
   "Read a functionname from the minibuffer and wrap selection in function call"
@@ -217,14 +228,15 @@ Otherwise call `evil-surround-delete'."
      (setq evil-inhibit-operator t)
      (list (assoc-default evil-this-operator
                           evil-surround-operator-alist))))
-  (cond
-   ((eq operation 'change)
-    (call-interactively 'evil-surround-change))
-   ((eq operation 'delete)
-    (call-interactively 'evil-surround-delete))
-   (t
-    (define-key evil-operator-shortcut-map "s" 'evil-surround-line)
-    (call-interactively 'evil-surround-region))))
+  (evil-surround-save-excursion-if-keep-point
+    (cond 
+     ((eq operation 'change)
+      (call-interactively 'evil-surround-change))
+     ((eq operation 'delete)
+      (call-interactively 'evil-surround-delete))
+     (t
+      (define-key evil-operator-shortcut-map "s" 'evil-surround-line)
+      (call-interactively 'evil-surround-region)))))
 
 (evil-define-operator evil-surround-region (beg end type char &optional force-new-line)
   "Surround BEG and END with CHAR.
