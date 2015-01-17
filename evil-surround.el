@@ -206,7 +206,7 @@ overlays OUTER and INNER, which are passed to `evil-surround-delete'."
 ;; Dispatcher function in Operator-Pending state.
 ;; "cs" calls `evil-surround-change', "ds" calls `evil-surround-delete',
 ;; and "ys" calls `evil-surround-region'.
-(evil-define-command evil-surround-edit (operation)
+(evil-define-command evil-surround-edit (operation &optional force-new-line)
   "Edit the surrounding delimiters represented by CHAR.
 If OPERATION is `change', call `evil-surround-change'.
 if OPERATION is `surround', call `evil-surround-region'.
@@ -222,9 +222,19 @@ Otherwise call `evil-surround-delete'."
     (call-interactively 'evil-surround-change))
    ((eq operation 'delete)
     (call-interactively 'evil-surround-delete))
+   (force-new-line
+    (call-interactively 'evil-Surround-region))
    (t
-    (define-key evil-operator-shortcut-map "s" 'evil-surround-line)
     (call-interactively 'evil-surround-region))))
+
+(evil-define-command evil-Surround-edit (operation)
+  (interactive
+   (progn
+     ;; abort the calling operator
+     (setq evil-inhibit-operator t)
+     (list (assoc-default evil-this-operator
+                          evil-surround-operator-alist))))
+  (evil-surround-edit operation t))
 
 (evil-define-operator evil-surround-region (beg end type char &optional force-new-line)
   "Surround BEG and END with CHAR.
@@ -273,6 +283,10 @@ Becomes this:
           (goto-char (overlay-start overlay)))
       (delete-overlay overlay))))
 
+(evil-define-operator evil-Surround-region (beg end type char)
+  "Call surround-region, toggling force-new-line"
+  (interactive "<R>c")
+  (evil-surround-region beg end type char t))
 
 ;;;###autoload
 (define-minor-mode evil-surround-mode
@@ -296,7 +310,10 @@ Becomes this:
   "Global minor mode to emulate surround.vim.")
 
 (evil-define-key 'operator evil-surround-mode-map "s" 'evil-surround-edit)
+(evil-define-key 'operator evil-surround-mode-map "S" 'evil-Surround-edit)
+
 (evil-define-key 'visual evil-surround-mode-map "S" 'evil-surround-region)
+(evil-define-key 'visual evil-surround-mode-map "gS" 'evil-Surround-region)
 
 (provide 'evil-surround)
 
