@@ -13,14 +13,14 @@ Alternatively, you can enable surround-mode along a major mode by adding
 This package uses [Evil](https://gitorious.org/evil) as its vi layer.
 
 ## Add surrounding ##
-You can surround in visual-state with `S<textobject><trigger>`
-or in normal-state with `ys<textobject><trigger>`.
+You can surround in visual-state with `S<textobject>` or `gS<textobject>`.
+or in normal-state with `ys<textobject>` or `yS<textobject>`.
 
 ## Change surrounding ##
-You can change a surrounding with `cs<old-trigger><new-trigger>`.
+You can change a surrounding with `cs<old-textobject><new-textobject>`.
 
 ## Delete surrounding ##
-You can delete a surrounding with `ds<trigger>`.
+You can delete a surrounding with `ds<textobject>`.
 
 ## Add new surround pairs ##
 A surround pair is this (trigger char with textual left and right strings):

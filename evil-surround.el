@@ -203,38 +203,46 @@ overlays OUTER and INNER, which are passed to `evil-surround-delete'."
         (when outer (delete-overlay outer))
         (when inner (delete-overlay inner)))))))
 
+(defun evil-surround-interactive-setup ()
+  (setq evil-inhibit-operator t)
+     (list (assoc-default evil-this-operator
+                          evil-surround-operator-alist)))
+
+(defun evil-surround-setup-surround-line-operators ()
+  (define-key evil-operator-shortcut-map "s" 'evil-surround-line)
+  (define-key evil-operator-shortcut-map "S" 'evil-surround-line))
+
 ;; Dispatcher function in Operator-Pending state.
 ;; "cs" calls `evil-surround-change', "ds" calls `evil-surround-delete',
 ;; and "ys" calls `evil-surround-region'.
-(evil-define-command evil-surround-edit (operation &optional force-new-line)
+(evil-define-command evil-surround-edit (operation)
   "Edit the surrounding delimiters represented by CHAR.
 If OPERATION is `change', call `evil-surround-change'.
-if OPERATION is `surround', call `evil-surround-region'.
-Otherwise call `evil-surround-delete'."
-  (interactive
-   (progn
-     ;; abort the calling operator
-     (setq evil-inhibit-operator t)
-     (list (assoc-default evil-this-operator
-                          evil-surround-operator-alist))))
+if OPERATION is `deliete', call `evil-surround-delete'.
+Otherwise call `evil-surround-region'."
+  (interactive (evil-surround-interactive-setup))
+  (message "%s" operation)
   (cond
    ((eq operation 'change)
     (call-interactively 'evil-surround-change))
    ((eq operation 'delete)
     (call-interactively 'evil-surround-delete))
-   (force-new-line
-    (call-interactively 'evil-Surround-region))
    (t
+    (evil-surround-setup-surround-line-operators)
     (call-interactively 'evil-surround-region))))
 
 (evil-define-command evil-Surround-edit (operation)
-  (interactive
-   (progn
-     ;; abort the calling operator
-     (setq evil-inhibit-operator t)
-     (list (assoc-default evil-this-operator
-                          evil-surround-operator-alist))))
-  (evil-surround-edit operation t))
+  "Like evil-surround-edit, but for surrounding with additional new-lines.
+
+It does nothing for change / delete."
+  (interactive (evil-surround-interactive-setup))
+  (message "%s" operation)
+  (cond
+   ((eq operation 'change) nil)
+   ((eq operation 'delete) nil)
+   (t
+    (evil-surround-setup-surround-line-operators)
+    (call-interactively 'evil-Surround-region))))
 
 (evil-define-operator evil-surround-region (beg end type char &optional force-new-line)
   "Surround BEG and END with CHAR.
