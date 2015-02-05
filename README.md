@@ -136,7 +136,7 @@ the tags. So with:
 
 	"Hello world!"
 
-... after selecting the string, then pressing `sf`, entering `print`
+... after selecting the string, then pressing `Sf`, entering `print`
 and pressing return you would get
 
     print("Hello world!")
