@@ -95,6 +95,10 @@ Each item is of the form (OPERATOR . OPERATION)."
     (cons (format "<%s%s>" (or tag "") (or rest ""))
           (format "</%s>" (or tag "")))))
 
+(defun evil-surround-valid-char-p (char)
+  "Returns whether CHAR is a valid surround char or not."
+  (not (memq char '(?\C-\[ ?\C-?))))
+
 (defun evil-surround-pair (char)
   "Return the evil-surround pair of char.
 This is a cons cell (LEFT . RIGHT), both strings."
@@ -191,9 +195,10 @@ overlays OUTER and INNER, which are passed to `evil-surround-delete'."
   (cond
    ((and outer inner)
     (evil-surround-delete char outer inner)
-    (evil-surround-region (overlay-start outer)
-                     (overlay-end outer)
-                     nil (read-char)))
+    (let ((key (read-char)))
+      (evil-surround-region (overlay-start outer)
+                            (overlay-end outer)
+                            nil (if (evil-surround-valid-char-p key) key char))))
    (t
     (let* ((outer (evil-surround-outer-overlay char))
            (inner (evil-surround-inner-overlay char)))
@@ -259,37 +264,38 @@ Becomes this:
    }"
 
   (interactive "<R>c")
-  (let* ((overlay (make-overlay beg end nil nil t))
-         (pair (evil-surround-pair char))
-         (open (car pair))
-         (close (cdr pair)))
-    (unwind-protect
-        (progn
-          (goto-char (overlay-start overlay))
+  (when (evil-surround-valid-char-p char)
+    (let* ((overlay (make-overlay beg end nil nil t))
+           (pair (evil-surround-pair char))
+           (open (car pair))
+           (close (cdr pair)))
+      (unwind-protect
+          (progn
+            (goto-char (overlay-start overlay))
 
-          (cond ((eq type 'line)
-                 (insert open)
-                 (indent-according-to-mode)
-                 (newline-and-indent)
-                 (goto-char (overlay-end overlay))
-                 (insert close)
-                 (indent-according-to-mode)
-                 (newline))
+            (cond ((eq type 'line)
+                   (insert open)
+                   (indent-according-to-mode)
+                   (newline-and-indent)
+                   (goto-char (overlay-end overlay))
+                   (insert close)
+                   (indent-according-to-mode)
+                   (newline))
 
-                (force-new-line
-                 (insert open)
-                 (indent-according-to-mode)
-                 (newline-and-indent)
-                 (goto-char (overlay-end overlay))
-                 (newline-and-indent)
-                 (insert close))
+                  (force-new-line
+                   (insert open)
+                   (indent-according-to-mode)
+                   (newline-and-indent)
+                   (goto-char (overlay-end overlay))
+                   (newline-and-indent)
+                   (insert close))
 
-                (t
-                 (insert open)
-                 (goto-char (overlay-end overlay))
-                 (insert close)))
-          (goto-char (overlay-start overlay)))
-      (delete-overlay overlay))))
+                  (t
+                   (insert open)
+                   (goto-char (overlay-end overlay))
+                   (insert close)))
+            (goto-char (overlay-start overlay)))
+        (delete-overlay overlay)))))
 
 (evil-define-operator evil-Surround-region (beg end type char)
   "Call surround-region, toggling force-new-line"
