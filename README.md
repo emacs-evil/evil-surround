@@ -71,9 +71,9 @@ By default, surround works with `evil-change` and `evil-delete`.
 To add support for the evil-paredit package, you need to add `evil-paredit-change`
 and `evil-paredit-delete` to `surround-operator-alist`, like so:
 
-    (add-to-list 'surround-operator-alist
+    (add-to-list 'evil-surround-operator-alist
                  '(evil-paredit-change . change))
-    (add-to-list 'surround-operator-alist
+    (add-to-list 'evil-surround-operator-alist
                  '(evil-paredit-delete . delete))
 
 ## Usage examples ##
