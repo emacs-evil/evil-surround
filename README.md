@@ -31,37 +31,37 @@ or this (trigger char and calling a function):
 
     (?< . surround-read-tag)
 
-You can add new by adding them to `surround-pairs-alist`.
-For more information do: `C-h v surround-pairs-alist`.
+You can add new by adding them to `evil-surround-pairs-alist`.
+For more information do: `C-h v evil-surround-pairs-alist`.
 
-`surround-pairs-alist` is a buffer local variable, which means that you can have
+`evil-surround-pairs-alist` is a buffer local variable, which means that you can have
 different surround pairs in different modes.
 By default `<` is used to insert a tag, in C++ this may not be useful - but
 inserting angle brackets is, so you can add this:
 
     (add-hook 'c++-mode-hook (lambda ()
-                               (push '(?< . ("< " . " >")) surround-pairs-alist)))
+                               (push '(?< . ("< " . " >")) evil-surround-pairs-alist)))
 
 Don't worry about having two entries for `<` surround will take the first.
 
 Or in Emacs Lisp modes using \` to enter \` ' is quite useful, but not adding a
-pair of ` (the default behavior if no entry in `surround-pairs-alist` is
+pair of ` (the default behavior if no entry in `evil-surround-pairs-alist` is
 present), so you can do this:
 
     (add-hook 'emacs-lisp-mode-hook (lambda ()
-                                      (push '(?` . ("`" . "'")) surround-pairs-alist)))
+                                      (push '(?` . ("`" . "'")) evil-surround-pairs-alist)))
 
 without affecting your Markdown surround pairs, where the default is useful.
 
-To change the default `surround-pairs-alist` you have to use `setq-default`, for
+To change the default `evil-surround-pairs-alist` you have to use `setq-default`, for
 example to remove all default pairs:
 
-    (setq-default surround-pairs-alist '())
+    (setq-default evil-surround-pairs-alist '())
 
 or to add a pair that surrounds with two ` if you enter ~:
 
-    (setq-default surround-pairs-alist (cons '(?~ ("``" . "``"))
-                                             surround-pairs-alist))
+    (setq-default evil-surround-pairs-alist (cons '(?~ ("``" . "``"))
+                                             evil-surround-pairs-alist))
 
 ## Add new supported operators ##
 You can add support for new operators by adding them to `surround-operator-alist`.
