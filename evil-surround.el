@@ -223,8 +223,8 @@ overlays OUTER and INNER, which are passed to `evil-surround-delete'."
 (defun evil-surround-block (beg end char)
   "Split a block into regions per line and surround them individually. Skips
 lines where the columns don't line up."
-  (let* ((beg-col (evil-surround-column-at beg))
-         (end-col (evil-surround-column-at end)))
+  (let ((beg-col (evil-surround-column-at beg))
+        (end-col (evil-surround-column-at end)))
     (evil-apply-on-block
      (lambda (ibeg iend)
        (unless (< (evil-surround-column-at ibeg) (min beg-col end-col))
