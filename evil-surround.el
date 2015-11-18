@@ -221,8 +221,9 @@ overlays OUTER and INNER, which are passed to `evil-surround-delete'."
   (save-excursion (goto-char pos) (current-column)))
 
 (defun evil-surround-block (beg end char)
-  "Split a block into regions per line and surround them individually. Skips
-lines where the columns don't line up."
+  "Surrounds a block selection with a character, as if `evil-surround-region'
+were called on each segment in each line. This skips lines where EOL < BEG's
+column."
   (let ((beg-col (evil-surround-column-at beg))
         (end-col (evil-surround-column-at end)))
     (evil-apply-on-block
