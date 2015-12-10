@@ -217,21 +217,20 @@ overlays OUTER and INNER, which are passed to `evil-surround-delete'."
   (define-key evil-operator-shortcut-map "s" 'evil-surround-line)
   (define-key evil-operator-shortcut-map "S" 'evil-surround-line))
 
+(defun evil-surround-column-at (pos)
+  (save-excursion (goto-char pos) (current-column)))
+
 (defun evil-surround-block (beg end char)
-  "Split a block into regions per line and surround each of them individually."
-  (save-excursion
-    (goto-char beg)
-    (let ((lines (- (1+ (line-number-at-pos end)) (line-number-at-pos beg)))
-          (start-col (current-column))
-          (end-col (save-excursion (goto-char end) (current-column))))
-      (while (> lines 0)
-        (move-to-column start-col)
-        ;; skip lines that are empty at this column
-        (unless (/= start-col (current-column))
-          (evil-surround-region (point) (save-excursion (move-to-column end-col) (point))
-                                'inclusive char))
-        (setq lines (1- lines))
-        (next-line)))))
+  "Surrounds a block selection with a character, as if `evil-surround-region'
+were called on each segment in each line. This skips lines where EOL < BEG's
+column."
+  (let ((beg-col (evil-surround-column-at beg))
+        (end-col (evil-surround-column-at end)))
+    (evil-apply-on-block
+     (lambda (ibeg iend)
+       (unless (< (evil-surround-column-at ibeg) (min beg-col end-col))
+         (evil-surround-region ibeg iend t char)))
+     beg end nil)))
 
 ;; Dispatcher function in Operator-Pending state.
 ;; "cs" calls `evil-surround-change', "ds" calls `evil-surround-delete',
