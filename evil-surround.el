@@ -238,7 +238,7 @@ column."
 (evil-define-command evil-surround-edit (operation)
   "Edit the surrounding delimiters represented by CHAR.
 If OPERATION is `change', call `evil-surround-change'.
-if OPERATION is `deliete', call `evil-surround-delete'.
+if OPERATION is `delete', call `evil-surround-delete'.
 Otherwise call `evil-surround-region'."
   (interactive (evil-surround-interactive-setup))
   (message "%s" operation)
