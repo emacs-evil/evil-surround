@@ -293,8 +293,8 @@ Becomes this:
 
                   ((eq type 'line)
                    (insert open)
-                   (indent-according-to-mode)
                    (newline-and-indent)
+                   (indent-region (overlay-start overlay) (overlay-end overlay))
                    (goto-char (overlay-end overlay))
                    (insert close)
                    (indent-according-to-mode)
