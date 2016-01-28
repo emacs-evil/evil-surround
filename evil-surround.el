@@ -1,6 +1,9 @@
 ;;; evil-surround.el --- emulate surround.vim from Vim
 
 ;; Copyright (C) 2010, 2011 Tim Harper
+
+;; Licensed under the same terms as Emacs.
+
 ;;
 ;; Author: Tim Harper <timcharper at gmail dot com>
 ;;      Vegard Øye <vegard_oye at hotmail dot com>
