@@ -314,12 +314,12 @@ Becomes this:
 
                   (force-new-line
                    (insert open)
-                   (indent-according-to-mode)
                    (newline-and-indent)
-                   (goto-char (overlay-end overlay))
-                   (newline-and-indent)
-                   (insert close)
-                   (indent-region beg-pos (point)))
+                   (let ((pt (point)))
+                     (goto-char (overlay-end overlay))
+                     (newline-and-indent)
+                     (insert close)
+                     (indent-region pt (point))))
 
                   (t
                    (insert open)
