@@ -284,7 +284,7 @@ Becomes this:
   (interactive "<R>c")
   (when (evil-surround-valid-char-p char)
     (let* ((overlay (make-overlay beg end nil nil t))
-           (pair (evil-surround-pair char))
+           (pair (or (and (boundp 'pair) pair) (evil-surround-pair char)))
            (open (car pair))
            (close (cdr pair))
            (beg-pos (overlay-start overlay)))
