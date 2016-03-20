@@ -295,6 +295,13 @@ Becomes this:
                    (evil-surround-block beg end char))
 
                   ((eq type 'line)
+                   (setq force-new-line
+                         (or force-new-line
+                             ;; Force newline if not invoked from an operator, e.g. VS)
+                             (eq evil-this-operator 'evil-surround-region)
+                             ;; Or on multi-line operator surrounds (like 'ysj]')
+                             (/= (line-number-at-pos) (line-number-at-pos (1- end)))))
+
                    (back-to-indentation)
                    (setq beg-pos (point))
                    (insert open)
