@@ -235,6 +235,16 @@ column."
          (evil-surround-region ibeg iend t char)))
      beg end nil)))
 
+(defun evil-surround-call-with-repeat (callback)
+  "Record keystrokes to repeat surround-region operator and it's motion.
+This is necessary because `evil-yank' operator is not repeatable (:repeat nil)"
+  (evil-repeat-start)
+  (evil-repeat-record "y")
+  (evil-repeat-record (this-command-keys))
+  (call-interactively callback)
+  (evil-repeat-keystrokes 'post)
+  (evil-repeat-stop))
+
 ;; Dispatcher function in Operator-Pending state.
 ;; "cs" calls `evil-surround-change', "ds" calls `evil-surround-delete',
 ;; and "ys" calls `evil-surround-region'.
@@ -252,7 +262,7 @@ Otherwise call `evil-surround-region'."
     (call-interactively 'evil-surround-delete))
    (t
     (evil-surround-setup-surround-line-operators)
-    (call-interactively 'evil-surround-region))))
+    (evil-surround-call-with-repeat 'evil-surround-region))))
 
 (evil-define-command evil-Surround-edit (operation)
   "Like evil-surround-edit, but for surrounding with additional new-lines.
@@ -265,7 +275,7 @@ It does nothing for change / delete."
    ((eq operation 'delete) nil)
    (t
     (evil-surround-setup-surround-line-operators)
-    (call-interactively 'evil-Surround-region))))
+    (evil-surround-call-with-repeat 'evil-Surround-region))))
 
 (evil-define-operator evil-surround-region (beg end type char &optional force-new-line)
   "Surround BEG and END with CHAR.
