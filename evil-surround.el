@@ -10,6 +10,7 @@
 ;; Maintainer: Please send bug reports to the mailing list (below).
 ;; Created: July 23 2011
 ;; Version: 0.1
+;; Package-Requires: ((evil "1.2.12"))
 ;; Keywords: emulation, vi, evil
 ;; Mailing list: <implementations-list at lists.ourproject.org>
 ;;      Subscribe: http://tinyurl.com/implementations-list
