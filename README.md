@@ -64,12 +64,12 @@ or to add a pair that surrounds with two ` if you enter ~:
                                              evil-surround-pairs-alist))
 
 ## Add new supported operators ##
-You can add support for new operators by adding them to `surround-operator-alist`.
-For more information do: `C-h v surround-operator-alist`.
+You can add support for new operators by adding them to `evil-surround-operator-alist`.
+For more information do: `C-h v evil-surround-operator-alist`.
 
 By default, surround works with `evil-change` and `evil-delete`.
 To add support for the evil-paredit package, you need to add `evil-paredit-change`
-and `evil-paredit-delete` to `surround-operator-alist`, like so:
+and `evil-paredit-delete` to `evil-surround-operator-alist`, like so:
 
     (add-to-list 'evil-surround-operator-alist
                  '(evil-paredit-change . change))
