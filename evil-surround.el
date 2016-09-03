@@ -167,13 +167,13 @@ See also `evil-surround-outer-overlay'."
       range)))
 
 ;;;###autoload
-(defun evil-surround-delete (char &optional outer inner)
+(evil-define-command evil-surround-delete (char &optional outer inner)
   "Delete the surrounding delimiters represented by CHAR.
 Alternatively, the text to delete can be represented with
 the overlays OUTER and INNER, where OUTER includes the delimiters
 and INNER excludes them. The intersection (i.e., difference)
 between these overlays is what is deleted."
-  (interactive "c")
+  (interactive "<C>")
   (cond
    ((and outer inner)
     (delete-region (overlay-start outer) (overlay-start inner))
@@ -191,15 +191,15 @@ between these overlays is what is deleted."
         (when inner (delete-overlay inner)))))))
 
 ;;;###autoload
-(defun evil-surround-change (char &optional outer inner)
+(evil-define-command evil-surround-change (char &optional outer inner)
   "Change the surrounding delimiters represented by CHAR.
 Alternatively, the text to delete can be represented with the
 overlays OUTER and INNER, which are passed to `evil-surround-delete'."
-  (interactive "c")
+  (interactive "<C>")
   (cond
    ((and outer inner)
     (evil-surround-delete char outer inner)
-    (let ((key (read-char)))
+    (let ((key (evil-read-key)))
       (evil-surround-region (overlay-start outer)
                             (overlay-end outer)
                             nil (if (evil-surround-valid-char-p key) key char))))
@@ -292,7 +292,7 @@ Becomes this:
      :thing
    }"
 
-  (interactive "<R>c")
+  (interactive "<R><C>")
   (when (evil-surround-valid-char-p char)
     (let* ((overlay (make-overlay beg end nil nil t))
            (pair (or (and (boundp 'pair) pair) (evil-surround-pair char)))
@@ -348,7 +348,7 @@ Becomes this:
 
 (evil-define-operator evil-Surround-region (beg end type char)
   "Call surround-region, toggling force-new-line"
-  (interactive "<R>c")
+  (interactive "<R><C>")
   (evil-surround-region beg end type char t))
 
 ;;;###autoload
