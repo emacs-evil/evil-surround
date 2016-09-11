@@ -166,7 +166,7 @@ See also `evil-surround-outer-overlay'."
       (evil-expand-range range)
       range)))
 
-;;;###autoload
+;;;###autoload (autoload 'evil-surround-delete "evil-surround" nil t)
 (evil-define-command evil-surround-delete (char &optional outer inner)
   "Delete the surrounding delimiters represented by CHAR.
 Alternatively, the text to delete can be represented with
@@ -190,7 +190,7 @@ between these overlays is what is deleted."
         (when outer (delete-overlay outer))
         (when inner (delete-overlay inner)))))))
 
-;;;###autoload
+;;;###autoload (autoload 'evil-surround-change "evil-surround" nil t)
 (evil-define-command evil-surround-change (char &optional outer inner)
   "Change the surrounding delimiters represented by CHAR.
 Alternatively, the text to delete can be represented with the
