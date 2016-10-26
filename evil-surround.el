@@ -66,7 +66,12 @@
     (?“ . ("“" . "”"))
     (?” . ("“" . "”"))
     (?‘ . ("‘" . "’"))
-    (?’ . ("‘" . "’")))
+    (?’ . ("‘" . "’"))
+    ; French-style (among others)
+    (?« . ("«" . "»"))
+    (?» . ("«" . "»"))
+    (?‹ . ("‹" . "›"))
+    (?› . ("‹" . "›")))
   "Association list of surround items.
 Each item is of the form (TRIGGER . (LEFT . RIGHT)), all strings.
 Alternatively, a function can be put in place of (LEFT . RIGHT).
