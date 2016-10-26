@@ -10,7 +10,7 @@ To enable it globally, add the following lines to ~/.emacs:
 Alternatively, you can enable surround-mode along a major mode by adding
 `turn-on-surround-mode' to the mode hook.
 
-This package uses [Evil](https://gitorious.org/evil) as its vi layer.
+This package uses [Evil](https://bitbucket.org/lyro/evil/) as its vi layer.
 
 ## Add surrounding ##
 You can surround in visual-state with `S<textobject>` or `gS<textobject>`.
