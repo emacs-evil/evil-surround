@@ -65,8 +65,11 @@ Each item is of the form (TRIGGER . (LEFT . RIGHT)), all strings.
 Alternatively, a function can be put in place of (LEFT . RIGHT).
 This only affects inserting pairs, not deleting or changing them."
   :group 'surround
-  :type '(repeat (cons (regexp :tag "Key")
-                       (symbol :tag "Surround pair"))))
+  :type '(alist
+          :key-type (character :tag "Key")
+          :value-type (choice
+                       (cons (string :tag "Opening") (string :tag "Closing"))
+                       (function :tag "Function"))))
 (make-variable-buffer-local 'evil-surround-pairs-alist)
 
 (defcustom evil-surround-operator-alist
