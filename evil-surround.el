@@ -59,7 +59,8 @@
     (?> . ("<" . ">"))
     (?t . evil-surround-read-tag)
     (?< . evil-surround-read-tag)
-    (?f . evil-surround-function))
+    (?f . evil-surround-function)
+    (?F . evil-surround-delimiters-function))
   "Association list of surround items.
 Each item is of the form (TRIGGER . (LEFT . RIGHT)), all strings.
 Alternatively, a function can be put in place of (LEFT . RIGHT).
@@ -85,10 +86,31 @@ Each item is of the form (OPERATOR . OPERATION)."
   "Keymap used by `evil-surround-read-tag'.")
 
 (defun evil-surround-function ()
-  "Read a functionname from the minibuffer and wrap selection in function call"
+  "Read a function name from the minibuffer and wrap selection in function call"
   (let ((fname (read-from-minibuffer "" "" )))
     (cons (format "%s(" (or fname ""))
           ")")))
+
+(defcustom evil-surround-delimiters-alist
+  '(("{" . "}")
+    ("[" . "]")
+    ("(" . ")")
+    ("<" . ">")
+    ("\"" . "\"")
+    ("'" . "'")
+    ("`" . "`"))
+  "Association list of opening and closing delimiters.
+Each item is of the form (OPEN . CLOSE), all strings."
+  :group 'surround)
+
+(defun evil-surround-delimiters-function ()
+  "Read a function name from the minibuffer and wrap selection in a function call using specified delimiters"
+  (let ((fname (read-from-minibuffer "function name: " "" ))
+        (open-delimiter (read-from-minibuffer "opening delimeter: " "")))
+    (let ((close-delimiter (or
+                            (cdr (assoc open-delimiter evil-surround-delimiters-alist))
+                            (read-from-minibuffer "closing delimeter: " ""))))
+      (cons (format "%s%s" fname open-delimiter) close-delimiter))))
 
 (defun evil-surround-read-tag ()
   "Read a XML tag from the minibuffer."
