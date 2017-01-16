@@ -60,7 +60,7 @@ example to remove all default pairs:
 
 or to add a pair that surrounds with two ` if you enter ~:
 
-    (setq-default evil-surround-pairs-alist (cons '(?~ ("``" . "``"))
+    (setq-default evil-surround-pairs-alist (cons '(?~ . ("``" . "``"))
                                              evil-surround-pairs-alist))
 
 ## Add new supported operators ##
