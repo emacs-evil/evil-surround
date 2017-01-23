@@ -146,3 +146,8 @@ and pressing return you would get
 ## Why does `vs` no longer surround?
 
 This is due to an upstream change in `vim-surround`. It happened in this commit: https://github.com/tpope/vim-surround/commit/6f0984a. See the discussion in this pull request for more details: https://github.com/timcharper/evil-surround/pull/48.
+
+LICENSE
+---------
+
+[GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html)

@@ -1,13 +1,13 @@
 ;;; evil-surround.el --- emulate surround.vim from Vim
 
-;; Copyright (C) 2010, 2011 Tim Harper
+;; Copyright (C) 2010 - 2017 Tim Harper
 
-;; Licensed under the same terms as Emacs.
+;; Licensed under the same terms as Emacs (GPLv3)
 
 ;;
 ;; Author: Tim Harper <timcharper at gmail dot com>
 ;;      Vegard Øye <vegard_oye at hotmail dot com>
-;; Maintainer: Please send bug reports to the mailing list (below).
+;; Current Maintainer: ninrod (github.com/ninrod)
 ;; Created: July 23 2011
 ;; Version: 0.1
 ;; Package-Requires: ((evil "1.2.12"))
@@ -33,7 +33,7 @@
 ;;
 ;; This package uses Evil as its vi layer. It is available from:
 ;;
-;;     https://bitbucket.org/lyro/evil/
+;;     https://github.com/emacs-evil/evil
 
 ;;; Code:
 
