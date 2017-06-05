@@ -1,4 +1,4 @@
-* Evil Surround
+* evil-surround
 
 [[https://travis-ci.org/emacs-evil/evil-surround][https://travis-ci.org/emacs-evil/evil-surround.png]]
 [[http://melpa.milkbox.net/#/evil-surround][http://melpa.milkbox.net/packages/evil-surround-badge.svg]]
