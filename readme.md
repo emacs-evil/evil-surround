@@ -151,3 +151,8 @@ LICENSE
 ---------
 
 [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html)
+
+CREDITS
+--------
+
+* credits and many [thanks](https://github.com/emacs-evil/evil/issues/842) go to [@timcharper](http://github.com/timcharper), the original mantainer of the package.
