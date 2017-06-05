@@ -1,0 +1,208 @@
+* Evil Surround
+
+[[https://travis-ci.org/emacs-evil/evil-surround.png][https://travis-ci.org/emacs-evil/evil-surround.png]]
+
+This package emulates [[https://github.com/tpope/vim-surround][surround.vim]] by [[https://github.com/tpope][Tim Pope]]. The functionality is wrapped into a minor mode.
+To enable it globally, add the following lines to ~/.emacs:
+
+#+BEGIN_SRC emacs-lisp
+(require 'evil-surround)
+(global-evil-surround-mode 1)
+#+END_SRC
+
+Alternatively, you can enable =surround-mode= along a major mode by adding
+=turn-on-surround-mode= to the mode hook.
+
+This package uses [[https://github.com/emacs-evil/evil][Evil]] as its vi layer.
+
+* Usage
+** Add surrounding
+
+You can surround in visual-state with =S<textobject>= or =gS<textobject>=.
+Or in normal-state with =ys<textobject>= or =yS<textobject>=.
+
+** Change surrounding
+
+You can change a surrounding with =cs<old-textobject><new-textobject>=.
+
+** Delete surrounding
+
+You can delete a surrounding with =ds<textobject>=.
+
+** Add new surround pairs
+
+A surround pair is this (trigger char with textual left and right
+strings):
+
+#+BEGIN_SRC emacs-lisp
+(?> . ("<" . ">"))
+#+END_SRC
+
+or this (trigger char and calling a function):
+
+#+BEGIN_SRC emacs-lisp
+(?< . surround-read-tag)
+#+END_SRC
+
+You can add new by adding them to =evil-surround-pairs-alist=.
+For more information do: =C-h v evil-surround-pairs-alist=.
+
+=evil-surround-pairs-alist= is a buffer local variable, which means that
+you can have different surround pairs in different modes. By default =<=
+is used to insert a tag, in C++ this may not be useful - but inserting
+angle brackets is, so you can add this:
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'c++-mode-hook (lambda ()
+                             (push '(?< . ("< " . " >")) evil-surround-pairs-alist)))
+#+END_SRC
+
+Don't worry about having two entries for =<= surround will take the
+first.
+
+Or in Emacs Lisp modes using ` to enter ` ' is quite useful, but not
+adding a pair of ` (the default behavior if no entry in
+=evil-surround-pairs-alist= is present), so you can do this:
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'emacs-lisp-mode-hook (lambda ()
+                                    (push '(?` . ("`" . "'")) evil-surround-pairs-alist)))
+#+END_SRC
+
+without affecting your Markdown surround pairs, where the default is useful.
+
+To change the default =evil-surround-pairs-alist= you have to use =setq-default=,
+for example to remove all default pairs:
+
+#+BEGIN_SRC emacs-lisp
+  (setq-default evil-surround-pairs-alist '())
+#+END_SRC
+
+or to add a pair that surrounds with two ` if you enter ~:
+
+#+BEGIN_SRC emacs-lisp
+  (setq-default evil-surround-pairs-alist (cons '(?~ . ("``" . "``"))
+                                           evil-surround-pairs-alist))
+#+END_SRC
+
+** Add new supported operators
+
+You can add support for new operators by adding them to =evil-surround-operator-alist=.
+For more information do: =C-h v evil-surround-operator-alist=.
+
+By default, surround works with =evil-change= and =evil-delete=.
+To add support for the evil-paredit package,
+you need to add =evil-paredit-change= and =evil-paredit-delete=
+to =evil-surround-operator-alist=, like so:
+
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'evil-surround-operator-alist
+               '(evil-paredit-change . change))
+  (add-to-list 'evil-surround-operator-alist
+               '(evil-paredit-delete . delete))
+#+END_SRC
+
+* Examples
+
+Here are some usage examples (taken from [[https://github.com/tpope/vim-surround][surround.vim]]):
+
+Press =cs"'= inside
+
+#+BEGIN_EXAMPLE
+    "Hello world!"
+#+END_EXAMPLE
+
+to change it to
+
+#+BEGIN_EXAMPLE
+    'Hello world!'
+#+END_EXAMPLE
+
+Now press =cs'<q>= to change it to
+
+#+BEGIN_EXAMPLE
+    <q>Hello world!</q>
+#+END_EXAMPLE
+
+To go full circle, press =cst"= to get
+
+#+BEGIN_EXAMPLE
+    "Hello world!"
+#+END_EXAMPLE
+
+To remove the delimiters entirely, press =ds"=.
+
+#+BEGIN_EXAMPLE
+    Hello world!
+#+END_EXAMPLE
+
+Now with the cursor on "Hello", press =ysiw]= (=iw= is a text object).
+
+#+BEGIN_EXAMPLE
+    [Hello] world!
+#+END_EXAMPLE
+
+Let's make that braces and add some space (use =}= instead of ={= for no
+space): =cs]{=
+
+#+BEGIN_EXAMPLE
+    { Hello } world!
+#+END_EXAMPLE
+
+Now wrap the entire line in parentheses with =yssb= or =yss)=.
+
+#+BEGIN_EXAMPLE
+    ({ Hello } world!)
+#+END_EXAMPLE
+
+Revert to the original text: =ds{ds)=
+
+#+BEGIN_EXAMPLE
+    Hello world!
+#+END_EXAMPLE
+
+Emphasize hello: =ysiw<em>=
+
+#+BEGIN_SRC html
+  <em>Hello</em> world!
+#+END_SRC
+
+Finally, let's try out visual mode. Press a capital V (for linewise
+visual mode) followed by =S<p class="important">=.
+
+#+BEGIN_SRC html
+  <p class="important">
+    <em>Hello</em> world!
+  </p>
+#+END_SRC
+
+Suppose you want to call a function on your visual selection or a text
+object. You can simply press =f= instead of the aforementioned keys and
+are then prompted for a functionname in the minibuffer, like with the
+tags. So with:
+
+#+BEGIN_EXAMPLE
+    "Hello world!"
+#+END_EXAMPLE
+
+... after selecting the string, then pressing =Sf=, entering =print= and
+pressing return you would get
+
+#+BEGIN_SRC c
+    print("Hello world!")
+#+END_SRC
+
+* FAAQ (frequently actually asked questions)
+** Why does =vs= no longer surround?
+
+This is due to an upstream change in =vim-surround=. It happened in this [[https://github.com/tpope/vim-surround/commit/6f0984a][commit]]. See the
+discussion in [[https://github.com/timcharper/evil-surround/pull/48][this]] pull request for more details.
+
+* LICENSE
+
+- [[https://www.gnu.org/licenses/gpl-3.0.en.html][GNU General Public License v3]]
+#+BEGIN_SRC text
+GNU General Public License v3
+Copyright (c) 2017 The evil-surround Contributors
+#+END_SRC
+
