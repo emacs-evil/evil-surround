@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/emacs-evil/evil-surround.png)](https://travis-ci.org/emacs-evil/evil-surround)
+
 # Overview
 
 This package emulates [surround.vim by Tim Pope](https://github.com/tpope/vim-surround).
