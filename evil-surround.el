@@ -59,7 +59,19 @@
     (?> . ("<" . ">"))
     (?t . evil-surround-read-tag)
     (?< . evil-surround-read-tag)
-    (?f . evil-surround-function))
+    (?f . evil-surround-function)
+
+    ;; Smart quotes
+    ; English-style
+    (?“ . ("“" . "”"))
+    (?” . ("“" . "”"))
+    (?‘ . ("‘" . "’"))
+    (?’ . ("‘" . "’"))
+    ; French-style (among others)
+    (?« . ("«" . "»"))
+    (?» . ("«" . "»"))
+    (?‹ . ("‹" . "›"))
+    (?› . ("‹" . "›")))
   "Association list of surround items.
 Each item is of the form (TRIGGER . (LEFT . RIGHT)), all strings.
 Alternatively, a function can be put in place of (LEFT . RIGHT).
