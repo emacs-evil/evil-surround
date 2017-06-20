@@ -202,7 +202,7 @@ overlays OUTER and INNER, which are passed to `evil-surround-delete'."
   (cond
    ((and outer inner)
     (evil-surround-delete char outer inner)
-    (let ((key (read-char)))
+    (let ((key (read-key)))
       (evil-surround-region (overlay-start outer)
                             (overlay-end outer)
                             nil (if (evil-surround-valid-char-p key) key char))))
