@@ -15,6 +15,18 @@
       ("ds'")
       "one two three")))
 
+(ert-deftest evil-surround-dot-test ()
+  (ert-info ("basic surrounding")
+    (evil-test-buffer
+      "one ((([t]wo))) three"
+      (turn-on-evil-surround-mode)
+      ("cs)]")
+      "one (([two])) three"
+      (".")
+      "one ([[two]]) three"
+      (".")
+      "one [[[two]]] three")))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; code below is copied from evil-tests.el
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
