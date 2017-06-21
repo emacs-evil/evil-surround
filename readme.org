@@ -1,7 +1,7 @@
 * evil-surround
 
 [[https://travis-ci.org/emacs-evil/evil-surround][https://travis-ci.org/emacs-evil/evil-surround.png]]
-[[http://melpa.milkbox.net/#/evil-surround][http://melpa.milkbox.net/packages/evil-surround-badge.svg]]
+[[https://melpa.org/#/evil-surround][https://melpa.org/packages/evil-surround-badge.svg]]
 
 This package emulates [[https://github.com/tpope/vim-surround][surround.vim]] by [[https://github.com/tpope][Tim Pope]]. The functionality is wrapped into a minor mode.
 To enable it globally, add the following lines to ~/.emacs:
