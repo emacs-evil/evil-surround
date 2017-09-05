@@ -381,6 +381,11 @@ Becomes this:
 (evil-define-key 'visual evil-surround-mode-map "S" 'evil-surround-region)
 (evil-define-key 'visual evil-surround-mode-map "gS" 'evil-Surround-region)
 
+;; This lets 'ysw)' behave the same as 'ysiw)', by treating 'evil-yank'
+;; like 'evil-change'.
+(when (boundp 'evil-change-commands)
+  (add-to-list 'evil-change-commands #'evil-yank))
+
 (provide 'evil-surround)
 
 ;;; evil-surround.el ends here
