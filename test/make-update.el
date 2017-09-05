@@ -8,7 +8,7 @@
 (package-refresh-contents)
 
 (defconst dev-packages
-  '(evil))
+  '(evil evil-test-helpers))
 
 (dolist (package dev-packages)
   (unless (package-installed-p package)
