@@ -258,7 +258,6 @@ If OPERATION is `change', call `evil-surround-change'.
 if OPERATION is `delete', call `evil-surround-delete'.
 Otherwise call `evil-surround-region'."
   (interactive (evil-surround-interactive-setup))
-  (message "%s" operation)
   (cond
    ((eq operation 'change)
     (call-interactively 'evil-surround-change))
@@ -273,7 +272,6 @@ Otherwise call `evil-surround-region'."
 
 It does nothing for change / delete."
   (interactive (evil-surround-interactive-setup))
-  (message "%s" operation)
   (cond
    ((eq operation 'change) nil)
    ((eq operation 'delete) nil)
