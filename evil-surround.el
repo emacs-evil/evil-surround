@@ -294,6 +294,10 @@ Becomes this:
    }"
 
   (interactive "<R>c")
+
+  ;; if motion is 'word' and evil-want-change-word-to-end is t, behave like 'ce', not 'cw'
+  (when (and (eq evil-this-motion 'evil-forward-word-begin) evil-want-change-word-to-end)
+    (setq end (1- end)))
   (when (evil-surround-valid-char-p char)
     (let* ((overlay (make-overlay beg end nil nil t))
            (pair (or (and (boundp 'pair) pair) (evil-surround-pair char)))
