@@ -96,4 +96,33 @@
       "111 222 333\n[1]11 222 333\n111 222 333\n111 222 333\n"
       (turn-on-evil-surround-mode)
       ("ysjb")
-      "111 222 333\n(\n111 222 333\n111 222 333\n)\n111 222 333\n")))
+      "111 222 333\n(\n111 222 333\n111 222 333\n)\n111 222 333\n"))
+  (ert-info ("test with evil-want-change-word-to-end")
+    (evil-test-buffer
+      "[o]ne    two  three"
+      (setq evil-want-change-word-to-end nil)
+      (turn-on-evil-surround-mode)
+      ("yswb")
+      "[(]one    )two  three"
+      ("dsb")
+      "[o]ne    two  three"
+      ("ys2wb")
+      "[(]one    two  )three"
+      ("dsb")
+      "[o]ne    two  three"
+      ("ys3wb")
+      "[(]one    two  three)")
+    (evil-test-buffer
+      "[o]ne    two  three"
+      (setq evil-want-change-word-to-end t)
+      (turn-on-evil-surround-mode)
+      ("yswb")
+      "[(]one)    two  three"
+      ("dsb")
+      "[o]ne    two  three"
+      ("ys2wb")
+      "[(]one    two)  three"
+      ("dsb")
+      "[o]ne    two  three"
+      ("ys3wb")
+      "[(]one    two  three)")))
