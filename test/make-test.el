@@ -1,3 +1,4 @@
+(setq load-prefer-newer t)
 
 (let ((current-directory (file-name-directory load-file-name)))
   (setq evil-surround-test-path (expand-file-name "." current-directory))
