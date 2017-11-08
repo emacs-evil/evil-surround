@@ -19,7 +19,7 @@ This package uses [[https://github.com/emacs-evil/evil][Evil]] as its vi layer.
 * Usage
 ** Add surrounding
 
-You can surround in visual-state with =S<textobject>= or =gS<textobject>=.
+You can surround in visual-state with =s<textobject>= or =gS<textobject>=.
 Or in normal-state with =ys<textobject>= or =yS<textobject>=.
 
 ** Change surrounding
