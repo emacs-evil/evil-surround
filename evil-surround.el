@@ -39,9 +39,9 @@
 
 (require 'evil)
 
-(defgroup surround nil
+(defgroup evil-surround nil
   "surround.vim for Emacs"
-  :prefix "surround-"
+  :prefix "evil-surround-"
   :group 'evil)
 
 ;; make surround's `ysw' work like `cw', not `ce'
@@ -68,7 +68,7 @@
 Each item is of the form (TRIGGER . (LEFT . RIGHT)), all strings.
 Alternatively, a function can be put in place of (LEFT . RIGHT).
 This only affects inserting pairs, not deleting or changing them."
-  :group 'surround
+  :group 'evil-surround
   :type '(alist
           :key-type (character :tag "Key")
           :value-type (choice
@@ -81,7 +81,7 @@ This only affects inserting pairs, not deleting or changing them."
     (evil-delete . delete))
   "Association list of operators to their fundamental operation.
 Each item is of the form (OPERATOR . OPERATION)."
-  :group 'surround
+  :group 'evil-surround
   :type '(repeat (cons (symbol :tag "Operator")
                        (symbol :tag "Operation"))))
 
