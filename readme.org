@@ -4,7 +4,7 @@
 [[https://melpa.org/#/evil-surround][https://melpa.org/packages/evil-surround-badge.svg]]
 [[https://www.gnu.org/licenses/gpl-3.0.en.html][https://img.shields.io/badge/license-GPLv3-blue.svg]]
 
-[[https://user-images.githubusercontent.com/1532071/29031827-276d67c0-7b98-11e7-9b20-396aee69b6fc.png][https://user-images.githubusercontent.com/1532071/29031827-276d67c0-7b98-11e7-9b20-396aee69b6fc.png]]
+[[https://user-images.githubusercontent.com/8352747/33156355-1a2477d8-cfe0-11e7-93e7-47cc33821e37.png][https://user-images.githubusercontent.com/8352747/33156355-1a2477d8-cfe0-11e7-93e7-47cc33821e37.png]]
 
 This package emulates [[https://github.com/tpope/vim-surround][surround.vim]] by [[https://github.com/tpope][Tim Pope]]. The functionality is wrapped into a minor mode.
 To enable it globally, add the following lines to ~/.emacs:
