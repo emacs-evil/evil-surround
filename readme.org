@@ -2,6 +2,7 @@
 
 [[https://travis-ci.org/emacs-evil/evil-surround.svg?branch=master][https://travis-ci.org/emacs-evil/evil-surround.svg?branch=master]]
 [[https://melpa.org/#/evil-surround][https://melpa.org/packages/evil-surround-badge.svg]]
+[[https://stable.melpa.org/#/evil-surround][file:https://stable.melpa.org/packages/evil-surround-badge.svg]]
 [[https://www.gnu.org/licenses/gpl-3.0.en.html][https://img.shields.io/badge/license-GPLv3-blue.svg]]
 
 [[https://user-images.githubusercontent.com/8352747/33156355-1a2477d8-cfe0-11e7-93e7-47cc33821e37.png][https://user-images.githubusercontent.com/8352747/33156355-1a2477d8-cfe0-11e7-93e7-47cc33821e37.png]]
