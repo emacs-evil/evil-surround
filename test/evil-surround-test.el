@@ -125,4 +125,11 @@
       ("dsb")
       "[o]ne    two  three"
       ("ys3wb")
-      "[(]one    two  three)")))
+      "[(]one    two  three)"))
+  (ert-info ("ensure backquote delimiters work")
+    (evil-test-buffer
+      "`this_is_a_[b]acktick_surrounded_word`"
+      (turn-on-evil-surround-mode)
+      ("cs`)")
+      "[(]this_is_a_backtick_surrounded_word)"
+      )))
