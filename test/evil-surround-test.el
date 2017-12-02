@@ -4,6 +4,16 @@
 (require 'evil-surround)
 (require 'evil-test-helpers)
 
+;; interactive test helper (this is the standard configuration)
+(evil-add-to-alist
+ 'evil-surround-pairs-alist
+ ?\) '("(" . ")")
+ ?\] '("[" . "]")
+ ?\} '("{" . "}")
+ ?\( '("( " . " )")
+ ?\[ '("[ " . " ]")
+ ?\{ '("{ " . " }"))
+
 (ert-deftest evil-surround-test ()
   (ert-info ("basic surrounding")
     (evil-test-buffer
@@ -126,6 +136,13 @@
       "[o]ne    two  three"
       ("ys3wb")
       "[(]one    two  three)"))
+  (ert-info ("yS test")
+    (evil-test-buffer
+      "some_word"
+      (turn-on-evil-surround-mode)
+      ("ySiW\"")
+      "\"\nsome_word\n\""
+      ))
   (ert-info ("ensure backquote delimiters work")
     (evil-test-buffer
       "`this_is_a_[b]acktick_surrounded_word`"
