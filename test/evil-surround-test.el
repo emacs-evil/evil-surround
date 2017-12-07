@@ -49,6 +49,26 @@
       "Hello world!"
       ("ysiw<em>")
       "<em>Hello</em> world!"))
+  (ert-info ("more examples from readme: function surrounding with dot repeat")
+    (evil-test-buffer
+      :visual-start nil
+      :visual-end nil
+      "argument1 argument2"
+      (turn-on-evil-surround-mode)
+      ("ysiwffunction" [return])
+      "function(argument1) argument2"
+      ("W.")
+      "function(argument1) function(argument2)"))
+  (ert-info ("even more examples from readme: tag surrounding with dot repeat")
+    (evil-test-buffer
+      :visual-start nil
+      :visual-end nil
+      "tag1 tag2"
+      (turn-on-evil-surround-mode)
+      ("ysiw<a>")
+      "<a>tag1</a> tag2"
+      ("W.")
+      "<a>tag1</a> <a>tag2</a>"))
   (ert-info ("repeat surrounding")
     (evil-test-buffer
       "[o]ne two three"
