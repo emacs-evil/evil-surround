@@ -91,15 +91,26 @@ Each item is of the form (OPERATOR . OPERATION)."
     map)
   "Keymap used by `evil-surround-read-tag'.")
 
+(defvar evil-surround-record-repeat nil
+  "Flag to indicate we're manually recording repeat info.")
+
+(defun evil-surround-read-from-minibuffer (&rest args)
+  (when evil-surround-record-repeat
+    (evil-repeat-record (evil-this-command-keys)))
+  (let ((res (apply #'read-from-minibuffer args)))
+    (when evil-surround-record-repeat
+      (evil-repeat-record res))
+    res))
+
 (defun evil-surround-function ()
   "Read a functionname from the minibuffer and wrap selection in function call"
-  (let ((fname (read-from-minibuffer "" "" )))
+  (let ((fname (evil-surround-read-from-minibuffer "" "")))
     (cons (format "%s(" (or fname ""))
           ")")))
 
 (defun evil-surround-read-tag ()
   "Read a XML tag from the minibuffer."
-  (let* ((input (read-from-minibuffer "<" "" evil-surround-read-tag-map))
+  (let* ((input (evil-surround-read-from-minibuffer "<" "" evil-surround-read-tag-map))
          (match (string-match "\\([0-9a-z-]+\\)\\(.*?\\)[>]*$" input))
          (tag  (match-string 1 input))
          (rest (match-string 2 input)))
@@ -255,7 +266,8 @@ This is necessary because `evil-yank' operator is not repeatable (:repeat nil)"
   ;; correctly set to, for example, `evil-surround-region' instead of
   ;; `evil-yank' when surround has been invoked by `ys'
   (setq this-command callback)
-  (call-interactively callback)
+  (let ((evil-surround-record-repeat t))
+    (call-interactively callback))
   (evil-repeat-keystrokes 'post)
   (evil-repeat-stop))
 
