@@ -96,7 +96,7 @@ Each item is of the form (OPERATOR . OPERATION)."
 
 (defun evil-surround-read-from-minibuffer (&rest args)
   (when evil-surround-record-repeat
-    (evil-repeat-record (evil-this-command-keys)))
+    (evil-repeat-keystrokes 'post))
   (let ((res (apply #'read-from-minibuffer args)))
     (when evil-surround-record-repeat
       (evil-repeat-record res))
