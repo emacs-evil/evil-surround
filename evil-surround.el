@@ -76,6 +76,34 @@ This only affects inserting pairs, not deleting or changing them."
                        (function :tag "Function"))))
 (make-variable-buffer-local 'evil-surround-pairs-alist)
 
+(defcustom evil-surround-lisp-modes '(
+				      cider-repl-mode
+				      clojure-mode
+				      clojurec-mode
+				      clojurescript-mode
+				      clojurex-mode
+				      common-lisp-mode
+				      emacs-lisp-mode
+				      eshell-mode
+				      geiser-repl-mode
+				      inf-clojure-mode
+				      inferior-emacs-lisp-mode
+				      inferior-lisp-mode
+				      inferior-scheme-mode
+				      lisp-interaction-mode
+				      lisp-mode
+				      monroe-mode
+				      racket-mode
+				      racket-repl-mode
+				      scheme-interaction-mode
+				      scheme-mode
+				      slime-repl-mode
+				      stumpwm-mode
+				      )
+  "List of Lisp-related modes."
+  :type '(repeat symbol)
+  :group 'evil-surround)
+
 (defcustom evil-surround-operator-alist
   '((evil-change . change)
     (evil-delete . delete))
@@ -105,8 +133,9 @@ Each item is of the form (OPERATOR . OPERATION)."
 (defun evil-surround-function ()
   "Read a functionname from the minibuffer and wrap selection in function call"
   (let ((fname (evil-surround-read-from-minibuffer "" "")))
-    (cons (format "%s(" (or fname ""))
-          ")")))
+    (cons (format (if (member major-mode evil-surround-lisp-modes)
+		      "(%s " "%s(")
+		  (or fname "")) ")")))
 
 (defun evil-surround-read-tag ()
   "Read a XML tag from the minibuffer."
@@ -157,7 +186,7 @@ See also `evil-surround-inner-overlay'."
         (while (looking-at regexp) (forward-char))
         (evil-set-range-beginning range (point))
         (goto-char (evil-range-end range))
-        (while (looking-back regexp) (backward-char))
+        (while (looking-back regexp nil) (backward-char))
         (evil-set-range-end range (point))))))
 
 (defun evil-surround-inner-overlay (char)
