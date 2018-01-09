@@ -130,6 +130,21 @@ Each item is of the form (OPERATOR . OPERATION)."
       (evil-repeat-record res))
     res))
 
+;; The operator state narrows the buffer to the current field. This
+;; function widens temporarily before reading a character so the
+;; narrowing is not visible to the user.
+(defun evil-surround-read-char ()
+  (if (evil-operator-state-p)
+      (save-restriction (widen) (read-char))
+    (read-char)))
+
+(defun evil-surround-input-char ()
+  (list (evil-surround-read-char)))
+
+(defun evil-surround-input-region-char ()
+  (append (evil-operator-range t)
+          (evil-surround-input-char)))
+
 (defun evil-surround-function ()
   "Read a functionname from the minibuffer and wrap selection in function call"
   (let ((fname (evil-surround-read-from-minibuffer "" "")))
@@ -220,7 +235,7 @@ Alternatively, the text to delete can be represented with
 the overlays OUTER and INNER, where OUTER includes the delimiters
 and INNER excludes them. The intersection (i.e., difference)
 between these overlays is what is deleted."
-  (interactive "c")
+  (interactive (evil-surround-input-char))
   (cond
    ((and outer inner)
     (delete-region (overlay-start outer) (overlay-start inner))
@@ -242,11 +257,11 @@ between these overlays is what is deleted."
   "Change the surrounding delimiters represented by CHAR.
 Alternatively, the text to delete can be represented with the
 overlays OUTER and INNER, which are passed to `evil-surround-delete'."
-  (interactive "c")
+  (interactive (evil-surround-input-char))
   (cond
    ((and outer inner)
     (evil-surround-delete char outer inner)
-    (let ((key (read-char)))
+    (let ((key (evil-surround-read-char)))
       (evil-surround-region (overlay-start outer)
                             (overlay-end outer)
                             nil (if (evil-surround-valid-char-p key) key char))))
@@ -344,7 +359,7 @@ Becomes this:
      :thing
    }"
 
-  (interactive "<R>c")
+  (interactive (evil-surround-input-region-char))
   (when (evil-surround-valid-char-p char)
     (let* ((overlay (make-overlay beg end nil nil t))
            (pair (or (and (boundp 'pair) pair) (evil-surround-pair char)))
@@ -400,7 +415,7 @@ Becomes this:
 
 (evil-define-operator evil-Surround-region (beg end type char)
   "Call surround-region, toggling force-new-line"
-  (interactive "<R>c")
+  (interactive (evil-surround-input-region-char))
   (evil-surround-region beg end type char t))
 
 ;;;###autoload
