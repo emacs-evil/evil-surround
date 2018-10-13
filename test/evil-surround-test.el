@@ -14,6 +14,18 @@
  ?\[ '("[ " . " ]")
  ?\{ '("{ " . " }"))
 
+(defmacro test-widened-buffer (start cmds exp)
+  (declare (indent 0))
+  `(let (widened)
+     (evil-test-buffer
+       ,start
+       (turn-on-evil-surround-mode)
+       (cl-letf (((symbol-function #'widen)
+                  (lambda () (setq widened t))))
+         (execute-kbd-macro ,(car cmds)))
+       ,exp)
+     (should widened)))
+
 (ert-deftest evil-surround-test ()
   (ert-info ("basic surrounding")
     (evil-test-buffer
@@ -169,4 +181,17 @@
       (turn-on-evil-surround-mode)
       ("cs`)")
       "[(]this_is_a_backtick_surrounded_word)"
-      )))
+      ))
+  (ert-info ("buffer is widened before reading char")
+    (test-widened-buffer
+      "`[w]ord`"
+      ("cs`)")
+      "[(]word)")
+    (test-widened-buffer
+      "`[w]ord`"
+      ("ds`")
+      "[w]ord")
+    (test-widened-buffer
+      "[w]ord"
+      ("ysiwb")
+      "[(]word)")))
