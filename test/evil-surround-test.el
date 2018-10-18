@@ -55,21 +55,10 @@
       :visual-end nil
       "argument1 argument2"
       (turn-on-evil-surround-mode)
-      (c-mode)
       ("ysiwffunction" [return])
       "function(argument1) argument2"
       ("W.")
-      "function(argument1) function(argument2)")
-    (evil-test-buffer
-      :visual-start nil
-      :visual-end nil
-      "argument1 argument2"
-      (turn-on-evil-surround-mode)
-      (emacs-lisp-mode)
-      ("ysiwffunction" [return])
-      "(function argument1) argument2"
-      ("$.")
-      "(function argument1) (function argument2)"))
+      "function(argument1) function(argument2)"))
   (ert-info ("even more examples from readme: tag surrounding with dot repeat")
     (evil-test-buffer
       :visual-start nil
