@@ -97,7 +97,7 @@ or to add a pair that surrounds with two ` if you enter ~:
 ** Add new surround pairs through creation of evil objects
    - You can create new evil objects that will be respected by evil-surround. Just use the following code:
 #+BEGIN_SRC emacs-lisp
-  ;; this macro was extracted from a stackoveflow answer. link is missing
+  ;; this macro was copied from here: https://stackoverflow.com/a/22418983/4921402
   (defmacro define-and-bind-quoted-text-object (name key start-regex end-regex)
     (let ((inner-name (make-symbol (concat "evil-inner-" name)))
           (outer-name (make-symbol (concat "evil-a-" name))))
