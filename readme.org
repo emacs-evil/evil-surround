@@ -233,6 +233,7 @@ Credits and many [[https://github.com/emacs-evil/evil/issues/842][thanks]] go to
 - [[https://www.gnu.org/licenses/gpl-3.0.en.html][GNU General Public License v3]]
 #+BEGIN_SRC text
 GNU General Public License v3
-Copyright (c) 2017 The evil-surround Contributors
+Copyright (C) 2010 - 2017 Tim Harper
+Copyright (c) 2018 - 2019 The evil-surround Contributors
 #+END_SRC
 
