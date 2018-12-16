@@ -1,15 +1,16 @@
 ;;; evil-surround.el --- emulate surround.vim from Vim
 
 ;; Copyright (C) 2010 - 2017 Tim Harper
+;; Copyright (C) 2018 - 2019 The evil-surround.el Contributors
 
 ;; Licensed under the same terms as Emacs (GPLv3)
 
 ;;
 ;; Author: Tim Harper <timcharper at gmail dot com>
-;;      Vegard Øye <vegard_oye at hotmail dot com>
+;;         Vegard Øye <vegard_oye at hotmail dot com>           
 ;; Current Maintainer: ninrod (github.com/ninrod)
 ;; Created: July 23 2011
-;; Version: 0.1
+;; Version: 1.0.2
 ;; Package-Requires: ((evil "1.2.12"))
 ;; Mailing list: <implementations-list at lists.ourproject.org>
 ;;      Subscribe: http://tinyurl.com/implementations-list
