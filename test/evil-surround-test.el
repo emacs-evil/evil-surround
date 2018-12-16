@@ -37,6 +37,18 @@
       "one 'two' three"
       ("ds'")
       "one two three"))
+  (ert-info ("shortcut surrounding")
+    (evil-test-buffer
+      "One, and two. Also three.\n\n"
+      (turn-on-evil-surround-mode)
+      ("csw)")
+      "(One), and two. Also three.\n\n"
+      ("csW'")
+      "'(One),' and two. Also three.\n\n"
+      ("css.")
+      ".'(One),' and two. Also three..\n\n"
+      ("csp0")
+      "0.'(One),' and two. Also three..0\n\n"))
   (ert-info ("examples from readme")
     (evil-test-buffer
       :visual-start nil

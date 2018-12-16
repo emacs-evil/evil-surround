@@ -137,6 +137,13 @@ Each item is of the form (OPERATOR . OPERATION)."
   "Returns whether CHAR is a valid surround char or not."
   (not (memq char '(?\C-\[ ?\C-?))))
 
+(defun evil-surround-delete-char-noop-p (char)
+  "Returns whether CHAR is a noop when used with surround delete."
+  (memq char (list (string-to-char "w")
+                   (string-to-char "W")
+                   (string-to-char "s")
+                   (string-to-char "p"))))
+
 (defun evil-surround-pair (char)
   "Return the evil-surround pair of char.
 This is a cons cell (LEFT . RIGHT), both strings."
@@ -232,7 +239,8 @@ overlays OUTER and INNER, which are passed to `evil-surround-delete'."
   (interactive (evil-surround-input-char))
   (cond
    ((and outer inner)
-    (evil-surround-delete char outer inner)
+    (unless (evil-surround-delete-char-noop-p char)
+      (evil-surround-delete char outer inner))
     (let ((key (evil-surround-read-char)))
       (evil-surround-region (overlay-start outer)
                             (overlay-end outer)
