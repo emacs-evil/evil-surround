@@ -93,6 +93,16 @@
       "<a>tag1</a> tag2"
       ("W.")
       "<a>tag1</a> <a>tag2</a>"))
+  (ert-info ("optionally keep xml attributes")
+    (evil-test-buffer
+      :visual-start nil
+      :visual-end nil
+      "<div class=\"foo\">Bar</div>"
+      (turn-on-evil-surround-mode)
+      ("cst<span")
+      "<span class=\"foo\">Bar</span>"
+      ("cst<p>")
+      "<p>Bar</p>"))
   (ert-info ("repeat surrounding")
     (evil-test-buffer
       "[o]ne two three"
