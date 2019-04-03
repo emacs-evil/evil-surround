@@ -226,6 +226,26 @@ pressing return you would get
 
 This is due to an upstream change in =vim-surround=. It happened in this [[https://github.com/tpope/vim-surround/commit/6f0984a][commit]]. See the
 discussion in [[https://github.com/timcharper/evil-surround/pull/48][this]] pull request for more details.
+* Contributing
+   - you are encouraged to test your changes a standard environment with a clean emacs and just the needed plugins
+
+** interactively
+ #+BEGIN_SRC sh
+ # open a shell and go to the evil-surround directory, after cloning it
+ make
+ make emacs
+
+ # now load evil-surround/test/evil-surround-test.el and M-x ert and run the tests
+ #+END_SRC
+
+** command
+
+ #+BEGIN_SRC sh
+ # open a shell and go to the evil-surround directory, after cloning it
+ make
+ make test
+ #+END_SRC
+
 * Credits
 Credits and many [[https://github.com/emacs-evil/evil/issues/842][thanks]] go to [[http://github.com/timcharper][Tim Harper]], the original mantainer of the package.
 * LICENSE
