@@ -103,6 +103,16 @@
       "<span class=\"foo\">Bar</span>"
       ("cst<p>")
       "<p>Bar</p>"))
+  (ert-info ("optionally keep xml attributes: more complicated cases")
+    (evil-test-buffer
+      :visual-start nil
+      :visual-end nil
+      "<div ngModel class=\"foo\" randomAngularDirective #anchor1>Bar</div>"
+      (turn-on-evil-surround-mode)
+      ("cst<span")
+      "<span ngModel class=\"foo\" randomAngularDirective #anchor1>Bar</span>"
+      ("cst<p>")
+      "<p>Bar</p>"))
   (ert-info ("repeat surrounding")
     (evil-test-buffer
       "[o]ne two three"
@@ -206,14 +216,14 @@
       ))
   (ert-info ("buffer is widened before reading char")
     (test-widened-buffer
-      "`[w]ord`"
-      ("cs`)")
-      "[(]word)")
+     "`[w]ord`"
+     ("cs`)")
+     "[(]word)")
     (test-widened-buffer
-      "`[w]ord`"
-      ("ds`")
-      "[w]ord")
+     "`[w]ord`"
+     ("ds`")
+     "[w]ord")
     (test-widened-buffer
-      "[w]ord"
-      ("ysiwb")
-      "[(]word)")))
+     "[w]ord"
+     ("ysiwb")
+     "[(]word)")))
