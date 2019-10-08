@@ -134,7 +134,7 @@ Each item is of the form (OPERATOR . OPERATION)."
     (cons (format "%s(" (or fname ""))
           ")")))
 
-(defconst evil-surround-tag-name-re "\\([0-9a-z-]+\\)"
+(defconst evil-surround-tag-name-re "\\([0-9a-zA-Z\.-]+\\)"
   "Regexp matching an XML tag name.")
 
 (defun evil-surround-tag-p (string)
