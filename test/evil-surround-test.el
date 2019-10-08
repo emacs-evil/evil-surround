@@ -73,6 +73,22 @@
       "Hello world!"
       ("ysiw<em>")
       "<em>Hello</em> world!"))
+  (ert-info ("tests for dots and caps support in tags")
+	(evil-test-buffer
+	 :visual-start nil
+	 :visual-end nil
+	 "\"Hello world!\""
+	 (turn-on-evil-surround-mode)
+	 ("cs\"'")
+	 "'Hello world!'"
+	 ("cs'<Table.Hi>")
+	 "<Table.Hi>Hello world!</Table.Hi>"
+	 ("dst")
+	 "Hello world!"
+	 ("ysiw<div.Test attr=\"true\">")
+	 "<div.Test attr=\"true\">Hello</div.Test> world!"
+	 ("cst<Three.Separate.Components>")
+	 "<Three.Separate.Components>Hello</Three.Separate.Components> world!"))
   (ert-info ("more examples from readme: function surrounding with dot repeat")
     (evil-test-buffer
       :visual-start nil
