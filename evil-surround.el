@@ -91,11 +91,9 @@ Each item is of the form (OPERATOR . OPERATION)."
     (define-key map ">" (lambda ()
                           (interactive)
                           (call-interactively 'self-insert-command)
-                          (run-at-time nil nil
-                                       (lambda ()
-                                         (when (active-minibuffer-window)
-                                           (select-window (active-minibuffer-window))
-                                           (exit-minibuffer))))))
+                          (when (active-minibuffer-window)
+                            (select-window (active-minibuffer-window))
+                            (exit-minibuffer))))
     map)
   "Keymap used by `evil-surround-read-tag'.")
 
