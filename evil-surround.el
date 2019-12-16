@@ -106,10 +106,12 @@ Each item is of the form (OPERATOR . OPERATION)."
   "The previously deleted LEFT region.")
 
 (defun evil-surround-read-from-minibuffer (&rest args)
-  (when evil-surround-record-repeat
+  (when (or evil-surround-record-repeat
+            (evil-repeat-recording-p))
     (evil-repeat-keystrokes 'post))
   (let ((res (apply #'read-from-minibuffer args)))
-    (when evil-surround-record-repeat
+    (when (or evil-surround-record-repeat
+              (evil-repeat-recording-p))
       (evil-repeat-record res))
     res))
 

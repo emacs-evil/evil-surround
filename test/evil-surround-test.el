@@ -129,6 +129,16 @@
       "<span ngModel class=\"foo\" randomAngularDirective #anchor1>Bar</span>"
       ("cst<p>")
       "<p>Bar</p>"))
+  (ert-info ("optionally keep xml attributes: repeating")
+    (evil-test-buffer
+     :visual-start nil
+     :visual-end nil
+     "<div attr=\"foo\">Foo</div><div attr=\"bar\">Bar</div>"
+     (turn-on-evil-surround-mode)
+     ("cst<span")
+     "<span attr=\"foo\">Foo</span><div attr=\"bar\">Bar</div>"
+     ("fB.")
+     "<span attr=\"foo\">Foo</span><span attr=\"bar\">Bar</span>"))
   (ert-info ("repeat surrounding")
     (evil-test-buffer
       "[o]ne two three"
