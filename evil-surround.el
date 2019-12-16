@@ -90,10 +90,8 @@ Each item is of the form (OPERATOR . OPERATION)."
   (let ((map (copy-keymap minibuffer-local-map)))
     (define-key map ">" (lambda ()
                           (interactive)
-                          (call-interactively 'self-insert-command)
-                          (when (active-minibuffer-window)
-                            (select-window (active-minibuffer-window))
-                            (exit-minibuffer))))
+                          (call-interactively #'self-insert-command)
+                          (exit-minibuffer)))
     map)
   "Keymap used by `evil-surround-read-tag'.")
 
