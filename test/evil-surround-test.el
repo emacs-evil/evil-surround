@@ -253,3 +253,18 @@
      "[w]ord"
      ("ysiwb")
      "[(]word)")))
+
+(ert-deftest evil-surround-tag-from-macro ()
+ (ert-info ("tag surround in macro")
+   (save-window-excursion
+     (with-current-buffer (get-buffer-create "*evil-surround-tag-from-macro*")
+       (switch-to-buffer-other-window (current-buffer))
+       (insert "foo\nbar\nbaz\n")
+       (goto-char (point-min))
+       (evil-mode 1)
+       (turn-on-evil-surround-mode)
+       (execute-kbd-macro
+        "yse<div>f>lysit$j_")
+       (should
+        (string= "<div>$foo$</div>\nbar\nbaz\n"
+                 (buffer-substring-no-properties (point-min) (point-max))))))))
