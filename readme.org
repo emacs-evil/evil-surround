@@ -95,7 +95,7 @@ or to add a pair that surrounds with two ` if you enter ~:
                 (push '(?~ . ("``" . "``")) evil-surround-pairs-alist))
 #+END_SRC
 ** Add new surround pairs through creation of evil objects
-   - You can create new evil objects that will be respected by evil-surround. Just use the following code:
+You can create new evil objects that will be respected by evil-surround. Just use the following code:
 #+BEGIN_SRC emacs-lisp
   ;; this macro was copied from here: https://stackoverflow.com/a/22418983/4921402
   (defmacro define-and-bind-quoted-text-object (name key start-regex end-regex)
@@ -111,9 +111,44 @@ or to add a pair that surrounds with two ` if you enter ~:
 
   (define-and-bind-quoted-text-object "pipe" "|" "|" "|")
   (define-and-bind-quoted-text-object "slash" "/" "/" "/")
-  (define-and-bind-quoted-text-object "dollar" "*" "*" "*")
+  (define-and-bind-quoted-text-object "asterisk" "*" "*" "*")
   (define-and-bind-quoted-text-object "dollar" "$" "\\$" "\\$") ;; sometimes your have to escape the regex
 #+END_SRC
+** Add surround pairs for buffer-local text objects
+Buffer-local text objects are useful for mode specific text objects that you
+don't want polluting the global keymap. To make these objects work with
+=evil-surround=, the do the following (for example to bind pipes to =Q=):
+
+
+#+BEGIN_SRC emacs-lisp
+     (defvar evil-some-local-inner-keymap (make-sparse-keymap)
+       "Inner text object test keymap")
+     (defvar evil-some-local-outer-keymap (make-sparse-keymap)
+       "Outer text object keymap")
+     (define-key evil-some-local-inner-keymap "Q" #'evil-inner-pipe)
+     (define-key evil-some-local-outer-keymap "Q" #'evil-a-pipe)
+     (define-key evil-visual-state-local-map   "iQ" #'evil-inner-pipe)
+     (define-key evil-operator-state-local-map "iQ" #'evil-inner-pipe)
+     (define-key evil-visual-state-local-map   "aQ" #'evil-a-pipe)
+     (define-key evil-operator-state-local-map "aQ" #'evil-a-pipe)
+     (setq evil-surround-local-inner-text-object-map-list (list evil-some-local-inner-keymap))
+     (setq evil-surround-local-outer-text-object-map-list (list evil-some-local-outer-keymap))
+     (setq-local evil-surround-pairs-alist (append '((?Q "|" . "|")) evil-surround-pairs-alist))
+#+END_SRC
+
+note that the binding to =evil-some-local-(inner|outer)-keymap= is purely for organizational perpouses, you can skip that step and do:
+
+
+#+BEGIN_SRC emacs-lisp
+     (define-key evil-visual-state-local-map   "iQ" #'evil-inner-pipe)
+     (define-key evil-operator-state-local-map "iQ" #'evil-inner-pipe)
+     (define-key evil-visual-state-local-map   "aQ" #'evil-a-pipe)
+     (define-key evil-operator-state-local-map "aQ" #'evil-a-pipe)
+     (setq evil-surround-local-inner-text-object-map-list (list (lookup-key evil-operator-state-local-map "i")))
+     (setq evil-surround-local-outer-text-object-map-list (list (lookup-key evil-operator-state-local-map "a")))
+     (setq-local evil-surround-pairs-alist (append '((?Q "|" . "|")) evil-surround-pairs-alist))
+#+END_SRC
+
 ** Add new supported operators
 
 You can add support for new operators by adding them to =evil-surround-operator-alist=.
