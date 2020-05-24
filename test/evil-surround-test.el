@@ -252,7 +252,72 @@
     (test-widened-buffer
      "[w]ord"
      ("ysiwb")
-     "[(]word)")))
+     "[(]word)"
+     ))
+  (ert-info ("create buffer local text object and surround binding")
+    (evil-test-buffer
+     "QQw[o]rdQQ soup"
+     (turn-on-evil-surround-mode)
+     (evil-define-text-object evil-surround-test-inner-QQ (count &optional beg end type)
+       "Test text object"
+       :extend-selection nil
+       (evil-select-paren "QQ" "QQ"
+                          beg end type count nil))
+     (evil-define-text-object evil-surround-test-a-QQ (count &optional beg end type)
+       :extend-selection nil
+       (evil-select-paren "QQ" "QQ"
+                          beg end type count t))
+     (evil-define-text-object evil-surround-test-inner-NN (count &optional beg end type)
+       "Test text object"
+       :extend-selection nil
+       (evil-select-paren "NN" "NN"
+                          beg end type count nil))
+     (evil-define-text-object evil-surround-test-a-NN (count &optional beg end type)
+       :extend-selection nil
+       (evil-select-paren "NN" "NN"
+                          beg end type count t))
+
+     (defvar evil-surround-test-inner-text-objects-map (make-sparse-keymap)
+       "Inner text object test keymap")
+     (defvar evil-surround-test-outer-text-objects-map (make-sparse-keymap)
+       "Outer text object keymap")
+     (define-key evil-surround-test-inner-text-objects-map "Q" #'evil-surround-test-inner-QQ)
+     (define-key evil-surround-test-outer-text-objects-map "Q" #'evil-surround-test-a-QQ)
+     (define-key evil-visual-state-local-map   "iQ" #'evil-surround-test-inner-QQ)
+     (define-key evil-operator-state-local-map "iQ" #'evil-surround-test-inner-QQ)
+     (define-key evil-visual-state-local-map   "aQ" #'evil-surround-test-a-QQ)
+     (define-key evil-operator-state-local-map "aQ" #'evil-surround-test-a-QQ)
+     (define-key evil-visual-state-local-map   "iN" #'evil-surround-test-inner-NN)
+     (define-key evil-operator-state-local-map "iN" #'evil-surround-test-inner-NN)
+     (define-key evil-visual-state-local-map   "aN" #'evil-surround-test-a-NN)
+     (define-key evil-operator-state-local-map "aN" #'evil-surround-test-a-NN)
+     (setq evil-surround-local-inner-text-object-map-list (list evil-surround-test-inner-text-objects-map ))
+     (setq evil-surround-local-outer-text-object-map-list (list evil-surround-test-outer-text-objects-map ))
+     (setq evil-surround-local-inner-text-object-map-list (list (lookup-key evil-operator-state-local-map "i")))
+     (setq evil-surround-local-outer-text-object-map-list (list (lookup-key evil-operator-state-local-map "a")))
+     (setq-local evil-surround-pairs-alist (append '((?Q "QQ" . "QQ") (?N "NN" . "NN")) evil-surround-pairs-alist))
+     ("dsQ")
+     "word soup"
+     ("cswQ")
+     "QQwordQQ soup"
+     ("daQ")
+     " soup"
+     ("ysawQ")
+     "QQ soupQQ"
+     ("csQb")
+     "( soup)"
+     ("csbN")
+     "NN soupNN"
+     ))
+  (ert-info ("check that the previous binding was in fact local")
+    (evil-test-buffer
+     "QQw[o]rdQQ soup"
+     (turn-on-evil-surround-mode)
+     ("dsQ")
+     "QQwordQQ soup"
+     ("cswQ")
+     "QQQwordQQQ soup")))
+
 
 (ert-deftest evil-surround-tag-from-macro ()
  (ert-info ("tag surround in macro")
