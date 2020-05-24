@@ -117,8 +117,7 @@ You can create new evil objects that will be respected by evil-surround. Just us
 ** Add surround pairs for buffer-local text objects
 Buffer-local text objects are useful for mode specific text objects that you
 don't want polluting the global keymap. To make these objects work with
-=evil-surround=, the do the following (for example to bind pipes to =Q=):
-
+=evil-surround=, do the following (for example to bind pipes to =Q=):
 
 #+BEGIN_SRC emacs-lisp
      (defvar evil-some-local-inner-keymap (make-sparse-keymap)
@@ -137,7 +136,6 @@ don't want polluting the global keymap. To make these objects work with
 #+END_SRC
 
 note that the binding to =evil-some-local-(inner|outer)-keymap= is purely for organizational perpouses, you can skip that step and do:
-
 
 #+BEGIN_SRC emacs-lisp
      (define-key evil-visual-state-local-map   "iQ" #'evil-inner-pipe)
@@ -262,11 +260,12 @@ pressing return you would get
 This is due to an upstream change in =vim-surround=. It happened in this [[https://github.com/tpope/vim-surround/commit/6f0984a][commit]]. See the
 discussion in [[https://github.com/timcharper/evil-surround/pull/48][this]] pull request for more details.
 * Contributing
-   - you are encouraged to test your changes a standard environment with a clean emacs and just the needed plugins
+   - you are encouraged to test your changes in a standard environment with a clean emacs using just the needed plugins.
 
 ** interactively
  #+BEGIN_SRC sh
  # open a shell and go to the evil-surround directory, after cloning it
+ # this is a clean emacs with just the absolute minimum dependencies needed to test evil-surround interactivelly.
  make
  make emacs
 
@@ -277,6 +276,7 @@ discussion in [[https://github.com/timcharper/evil-surround/pull/48][this]] pull
 
  #+BEGIN_SRC sh
  # open a shell and go to the evil-surround directory, after cloning it
+ # this commands ensure that the tests are using a clean emacs with just the absolute minimum dependencies needed.
  make
  make test
  #+END_SRC
@@ -289,6 +289,6 @@ Credits and many [[https://github.com/emacs-evil/evil/issues/842][thanks]] go to
 #+BEGIN_SRC text
 GNU General Public License v3
 Copyright (C) 2010 - 2017 Tim Harper
-Copyright (c) 2018 - 2019 The evil-surround Contributors
+Copyright (c) 2018 - 2020 The evil-surround Contributors
 #+END_SRC
 
