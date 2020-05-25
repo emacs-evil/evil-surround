@@ -377,6 +377,9 @@ Becomes this:
    }"
 
   (interactive (evil-surround-input-region-char))
+  (if evil-this-motion-count
+    (evil-repeat-record (int-to-string evil-this-motion-count)))
+
   (when (evil-surround-valid-char-p char)
     (let* ((overlay (make-overlay beg end nil nil t))
            (pair (or (and (boundp 'pair) pair) (evil-surround-pair char)))

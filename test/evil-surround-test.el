@@ -166,6 +166,14 @@
       "one two 'three'"
       ("W.") ;; repeat delete surround
       "one two three"))
+  (ert-info ("repeat surrounding with count")
+    (evil-test-buffer
+      "[o]ne two three\none two three"
+      (turn-on-evil-surround-mode)
+      ("ys2wb")
+      "(one two) three\none two three"
+      ("j.")
+      "(one two) three\n(one two) three"))
   (ert-info ("visual surrounding")
     (evil-test-buffer
       "<one two> three\nfour\n"
