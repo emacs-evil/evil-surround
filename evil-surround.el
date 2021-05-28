@@ -392,7 +392,7 @@ Becomes this:
             (cond ((eq type 'block)
                    (evil-surround-block beg end char))
 
-                  ((eq type 'line)
+                  ((member type '(line screen-line))
                    (setq force-new-line
                          (or force-new-line
                              ;; Force newline if not invoked from an operator, e.g. visual line mode with VS)
