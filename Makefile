@@ -1,6 +1,6 @@
 emacs ?= emacs
 bemacs = $(emacs) -batch -l test/elpa.el
-LIBS = -L evil -L evil/lib -l evil.el -l goto-chg.el -l undo-tree.el -L . -l evil-surround.el -L test -l evil-surround-test.el
+LIBS = -L evil -L evil/lib -l evil.el -l goto-chg.el -L . -l evil-surround.el -L test -l evil-surround-test.el
 
 update:
 	$(emacs) -batch -l test/make-update.el && \
