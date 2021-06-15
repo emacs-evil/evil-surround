@@ -1,6 +1,6 @@
 emacs ?= emacs
 bemacs = $(emacs) -batch -l test/elpa.el
-LIBS = -L evil -L evil/lib -l evil.el -l goto-chg.el -L . -l evil-surround.el -L test -l evil-surround-test.el
+LIBS = -L evil -L evil/lib
 
 update:
 	$(emacs) -batch -l test/make-update.el && \
@@ -9,8 +9,12 @@ update:
 
 emacs:
 	$(emacs) -Q $(LIBS) \
+	--eval "(load-file \"evil/evil.el\")" \
+	--eval "(load-file \"evil/lib/goto-chg.el\")" \
+	--eval "(load-file \"evil-surround.el\")" \
 	--eval "(evil-mode 1)" \
 	--eval "(global-evil-surround-mode 1)"
+
 
 compile: clean
 	$(bemacs) -l test/make-compile.el
