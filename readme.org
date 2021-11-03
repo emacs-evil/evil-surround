@@ -21,7 +21,7 @@ To enable it through [[https://github.com/jwiegley/use-package][use-package]], a
     (global-evil-surround-mode 1))
 #+END_SRC
 
-Alternatively, can add the =evil-surround.el= file to your load-path and add =(require 'evil-surround)= to your init file.
+Alternatively, a user can add the =evil-surround.el= file to your load-path and add =(require 'evil-surround)= to your init file.
 
 Also, Instead of enabling it globally, you can also enable =surround-mode= along a major mode by adding =turn-on-surround-mode= to the mode hook.
 
