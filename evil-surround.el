@@ -64,6 +64,7 @@
     (?> . ("<" . ">"))
     (?t . evil-surround-read-tag)
     (?< . evil-surround-read-tag)
+    (?\C-f . evil-surround-prefix-function)
     (?f . evil-surround-function))
   "Association list of surround items.
 Each item is of the form (TRIGGER . (LEFT . RIGHT)), all strings.
@@ -130,6 +131,13 @@ Each item is of the form (OPERATOR . OPERATION)."
   "Read a functionname from the minibuffer and wrap selection in function call"
   (let ((fname (evil-surround-read-from-minibuffer "" "")))
     (cons (format "%s(" (or fname ""))
+          ")")))
+
+(defun evil-surround-prefix-function ()
+  "Read a function name from the minibuffer and wrap selection in a
+function call in prefixed form."
+  (let ((fname (evil-surround-read-from-minibuffer "prefix function: " "")))
+    (cons (format "(%s " (or fname ""))
           ")")))
 
 (defconst evil-surround-tag-name-re "\\([0-9a-zA-Z\.-]+\\)"
