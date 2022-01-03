@@ -168,7 +168,7 @@ function call in prefixed form."
 (defun evil-surround-read-tag ()
   "Read a XML tag from the minibuffer."
   (let* ((input (evil-surround-read-from-minibuffer "<" "" evil-surround-read-tag-map))
-         (match (string-match (concat evil-surround-tag-name-re "\\(.*?\\)\\([>]*\\)$") input))
+         (_ (string-match (concat evil-surround-tag-name-re "\\(.*?\\)\\([>]*\\)$") input))
          (tag  (match-string 1 input))
          (rest (match-string 2 input))
          (keep-attributes (not (string-match-p ">" input)))
@@ -231,16 +231,19 @@ See also `evil-surround-inner-overlay'."
                                   nil nil t))))))
 
 (defun evil-surround-trim-whitespace-from-range (range &optional regexp)
-  "Given an evil-range, trim whitespace around range by shrinking the range such that it neither begins nor ends with whitespace. Does not modify the buffer."
+  "Given an evil-range, trim whitespace around range by shrinking
+the range such that it neither begins nor ends with whitespace.
+Does not modify the buffer."
   (let ((regexp (or regexp "[ \f\t\n\r\v]")))
     (save-excursion
       (save-match-data
         (goto-char (evil-range-beginning range))
         (while (looking-at regexp) (forward-char))
-        (evil-set-range-beginning range (point))
-        (goto-char (evil-range-end range))
-        (while (looking-back regexp) (backward-char))
-        (evil-set-range-end range (point))))))
+        (let ((new-beg (point)))
+          (evil-set-range-beginning range new-beg)
+          (goto-char (evil-range-end range))
+          (while (looking-back regexp new-beg) (backward-char))
+          (evil-set-range-end range (point)))))))
 
 (defun evil-surround-inner-overlay (char)
   "Return inner overlay for the delimited range represented by CHAR.
