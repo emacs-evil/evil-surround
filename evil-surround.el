@@ -1,4 +1,4 @@
-;;; evil-surround.el --- emulate surround.vim from Vim
+;;; evil-surround.el --- emulate surround.vim from Vim  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2010 - 2017 Tim Harper
 ;; Copyright (C) 2018 - 2020 The evil-surround.el Contributors
@@ -115,6 +115,11 @@ Each item is of the form (OPERATOR . OPERATION)."
 (defvar evil-surround-last-deleted-left ""
   "The previously deleted LEFT region.")
 
+(defvar evil-surround-current-pair nil
+  "The current pair.
+
+When non-nil, it can be either a cons or a function returning a cons.")
+
 (defun evil-surround-read-from-minibuffer (&rest args)
   (when (or evil-surround-record-repeat
             (evil-repeat-recording-p))
@@ -190,13 +195,13 @@ function call in prefixed form."
 (defun evil-surround-pair (char)
   "Return the evil-surround pair of char.
 This is a cons cell (LEFT . RIGHT), both strings."
-  (let ((pair (assoc-default char evil-surround-pairs-alist)))
+  (let ((evil-surround-current-pair (assoc-default char evil-surround-pairs-alist)))
     (cond
-     ((functionp pair)
-      (funcall pair))
+     ((functionp evil-surround-current-pair)
+      (funcall evil-surround-current-pair))
 
-     ((consp pair)
-      pair)
+     ((consp evil-surround-current-pair)
+      evil-surround-current-pair)
 
      (t
       (cons (format "%c" char) (format "%c" char))))))
@@ -403,9 +408,9 @@ Becomes this:
 
   (when (evil-surround-valid-char-p char)
     (let* ((overlay (make-overlay beg end nil nil t))
-           (pair (or (and (boundp 'pair) pair) (evil-surround-pair char)))
-           (open (car pair))
-           (close (cdr pair))
+           (evil-surround-current-pair (or evil-surround-current-pair (evil-surround-pair char)))
+           (open (car evil-surround-current-pair))
+           (close (cdr evil-surround-current-pair))
            (beg-pos (overlay-start overlay)))
       (unwind-protect
           (progn
