@@ -7,7 +7,7 @@
 ;;         Vegard Øye <vegard_oye at hotmail dot com>
 ;; Current Maintainer: ninrod (github.com/ninrod)
 ;; Created: July 23 2011
-;; Version: 1.0.3
+;; Version: 1.0.4
 ;; Package-Requires: ((evil "1.2.12"))
 ;; Mailing list: <implementations-list at lists.ourproject.org>
 ;;      Subscribe: http://tinyurl.com/implementations-list
