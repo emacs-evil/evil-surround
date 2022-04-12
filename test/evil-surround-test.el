@@ -99,6 +99,16 @@
       "function(argument1) argument2"
       ("W.")
       "function(argument1) function(argument2)"))
+  (ert-info ("prefix-function surrounding with dot repeat")
+    (evil-test-buffer
+      :visual-start nil
+      :visual-end nil
+      "argument1 argument2"
+      (turn-on-evil-surround-mode)
+      ("ysiw\C-ffunction" [return])
+      "(function argument1) argument2"
+      ("WW.")
+      "(function argument1) (function argument2)"))
   (ert-info ("even more examples from readme: tag surrounding with dot repeat")
     (evil-test-buffer
       :visual-start nil
