@@ -406,7 +406,7 @@ Becomes this:
                    (setq beg-pos (point))
                    (insert open)
                    (when force-new-line (newline-and-indent))
-                   (evil-end-of-visual-line)
+                   (goto-char (overlay-end overlay))
                    (if force-new-line
                        (when (eobp)
                          (newline-and-indent))
