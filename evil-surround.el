@@ -493,7 +493,7 @@ Becomes this:
 ;;;###autoload
 (define-globalized-minor-mode global-evil-surround-mode
   evil-surround-mode turn-on-evil-surround-mode
-  :predicate '(text-mode prog-mode comint-mode))
+  "Global minor mode to emulate surround.vim.")
 
 (evil-define-key 'operator evil-surround-mode-map "s" 'evil-surround-edit)
 (evil-define-key 'operator evil-surround-mode-map "S" 'evil-Surround-edit)
