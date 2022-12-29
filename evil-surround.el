@@ -3,9 +3,6 @@
 ;; Copyright (C) 2010 - 2017 Tim Harper
 ;; Copyright (C) 2018 - 2020 The evil-surround.el Contributors
 
-;; Licensed under the same terms as Emacs (GPLv3)
-
-;;
 ;; Author: Tim Harper <timcharper at gmail dot com>
 ;;         Vegard Øye <vegard_oye at hotmail dot com>
 ;;
@@ -13,15 +10,28 @@
 ;; Maintainer: Tom Dalziel <tom.dalziel@gmail.com>
 ;;
 ;; Created: July 23 2011
-;; Version: 1.0.3
+;; Version: 1.0.4
 ;; Package-Requires: ((evil "1.2.12"))
 ;; Mailing list: <implementations-list at lists.ourproject.org>
 ;;      Subscribe: http://tinyurl.com/implementations-list
 ;;      Newsgroup: nntp://news.gmane.org/gmane.emacs.vim-emulation
 ;;      Archives: http://dir.gmane.org/gmane.emacs.vim-emulation
 ;; Keywords: emulation, vi, evil
-;;
+
 ;; This file is not part of GNU Emacs.
+;;
+;; This program is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+;;
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
 
