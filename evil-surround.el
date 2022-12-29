@@ -8,7 +8,10 @@
 ;;
 ;; Author: Tim Harper <timcharper at gmail dot com>
 ;;         Vegard Øye <vegard_oye at hotmail dot com>
-;; Current Maintainer: ninrod (github.com/ninrod)
+;;
+;; The following line is included for NonGNU ELPA's build script:
+;; Maintainer: Tom Dalziel <tom.dalziel@gmail.com>
+;;
 ;; Created: July 23 2011
 ;; Version: 1.0.3
 ;; Package-Requires: ((evil "1.2.12"))
