@@ -228,8 +228,8 @@ Does not modify the buffer."
   "Return overlay from provided delimiters or character.
 Preferably, use DELIMS to select the correct range.  Otherwise, use CHAR.
 This overlay includes the delimeters."
-  (let ((open (car delims))
-        (close (cdr delims))
+  (let ((open (car-safe delims))
+        (close (cdr-safe delims))
         outer)
     (if (and (stringp open) (stringp close))
         (let* ((o (regexp-quote open))
@@ -252,8 +252,8 @@ This overlay includes the delimeters."
   "Return overlay from provided delimiters or character.
 Preferably, use DELIMS to select the correct range.  Otherwise, use CHAR.
 This overlay excludes the delimeters."
-  (let ((open (car delims))
-        (close (cdr delims))
+  (let ((open (car-safe delims))
+        (close (cdr-safe delims))
         inner)
     (if (and (stringp open) (stringp close))
         (let* ((o (regexp-quote open))
