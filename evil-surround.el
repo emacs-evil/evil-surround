@@ -289,6 +289,12 @@ This overlay excludes the delimeters."
       (evil-expand-range range)
       range)))
 
+(defun evil-surround--get-delims (char)
+  "Given a CHAR, return delims from the pairs alist. Trim whitespace."
+  (cl-destructuring-bind (&optional k . (o . c)) (assoc char evil-surround-pairs-alist)
+    (when k
+      (cons (string-trim o) (string-trim c)))))
+
 ;;;###autoload
 (defun evil-surround-delete (char &optional outer inner)
   "Delete the surrounding delimiters represented by CHAR.
@@ -306,7 +312,7 @@ between these overlays is what is deleted."
    (t
     ;; no overlays specified: create them on the basis of CHAR
     ;; and delete after use
-    (let* ((delims (cdr (assoc char evil-surround-pairs-alist)))
+    (let* ((delims (evil-surround--get-delims char))
            (outer (evil-surround-outer-overlay delims char))
            (inner (evil-surround-inner-overlay delims char)))
       (unwind-protect
@@ -330,7 +336,7 @@ overlays OUTER and INNER, which are passed to `evil-surround-delete'."
                             (overlay-end outer)
                             nil (if (evil-surround-valid-char-p key) key char))))
    (t
-    (let* ((delims (cdr (assoc char evil-surround-pairs-alist)))
+    (let* ((delims (evil-surround--get-delims char))
            (outer (evil-surround-outer-overlay delims char))
            (inner (evil-surround-inner-overlay delims char)))
       (unwind-protect
