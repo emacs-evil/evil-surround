@@ -291,9 +291,14 @@ This overlay excludes the delimeters."
 
 (defun evil-surround--get-delims (char)
   "Given a CHAR, return delims from the pairs alist. Trim whitespace."
-  (cl-destructuring-bind (&optional k . (o . c)) (assoc char evil-surround-pairs-alist)
-    (when k
-      (cons (string-trim o) (string-trim c)))))
+  (let ((kv-pair (assoc char evil-surround-pairs-alist)))
+    (when kv-pair
+      (let* ((delims (cdr kv-pair))
+             (o (car-safe delims))
+             (c (cdr-safe delims)))
+        (if (and (stringp o) (stringp c))
+            (cons (string-trim o) (string-trim c))
+          delims)))))
 
 ;;;###autoload
 (defun evil-surround-delete (char &optional outer inner)
