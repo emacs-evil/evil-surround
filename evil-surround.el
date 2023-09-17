@@ -407,7 +407,9 @@ Otherwise call `evil-surround-region'."
     (call-interactively 'evil-surround-delete))
    (t
     (evil-surround-setup-surround-line-operators)
-    (evil-surround-call-with-repeat 'evil-surround-region))))
+    (evil-surround-call-with-repeat 'evil-surround-region)))
+  ;; Return an empty range so evil-motion-range doesn't try to guess
+  (let ((p (point))) (list p p 'exclusive)))
 
 (evil-define-command evil-Surround-edit (operation)
   "Like evil-surround-edit, but for surrounding with additional new-lines.
