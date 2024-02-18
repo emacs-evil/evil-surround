@@ -222,7 +222,7 @@ Does not modify the buffer."
     (save-excursion
       (save-match-data
         (goto-char (evil-range-beginning range))
-        (while (looking-at regexp) (forward-char))
+        (while (looking-at-p regexp) (forward-char))
         (let ((new-beg (point)))
           (evil-set-range-beginning range new-beg)
           (goto-char (evil-range-end range))
