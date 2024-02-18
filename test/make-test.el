@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t -*-
 (setq load-prefer-newer t)
 
 (let ((current-directory (file-name-directory load-file-name)))

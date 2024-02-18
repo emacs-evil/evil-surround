@@ -1,4 +1,4 @@
-
+;;; -*- lexical-binding: t -*-
 (require 'ert)
 (require 'evil)
 (require 'evil-surround)
