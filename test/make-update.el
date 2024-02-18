@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t -*-
 (setq package-user-dir
       (expand-file-name (format ".elpa/%s/elpa" emacs-version)))
 (message "installing in %s ...\n" package-user-dir)
