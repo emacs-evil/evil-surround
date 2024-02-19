@@ -5,8 +5,8 @@
 (require 'evil-test-helpers)
 
 ;; interactive test helper (this is the standard configuration)
-(evil-add-to-alist
- 'evil-surround-pairs-alist
+(evil--add-to-alist
+ evil-surround-pairs-alist
  ?\) '("(" . ")")
  ?\] '("[" . "]")
  ?\} '("{" . "}")
