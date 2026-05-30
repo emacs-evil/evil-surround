@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        emacs_version:
+          - '27.2'
+          - '30.1'
+          - snapshot
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Set up Emacs
+        uses: purcell/setup-emacs@master
+        with:
+          version: ${{ matrix.emacs_version }}
+
+      - name: Install dependencies
+        run: |
+          emacs --batch \
+            --eval "(setq package-user-dir (expand-file-name \".elpa\"))" \
+            --eval "(require 'package)" \
+            --eval "(add-to-list 'package-archives '(\"nongnu\" . \"https://elpa.nongnu.org/nongnu/\") t)" \
+            --eval "(add-to-list 'package-archives '(\"melpa\" . \"https://melpa.org/packages/\") t)" \
+            --eval "(package-initialize)" \
+            --eval "(package-refresh-contents)" \
+            --eval "(package-install 'evil)"
+
+      - name: Byte-compile (warnings as errors)
+        run: |
+          emacs --batch \
+            --eval "(setq package-user-dir (expand-file-name \".elpa\"))" \
+            --eval "(package-initialize)" \
+            --eval "(add-to-list 'load-path default-directory)" \
+            --eval "(setq byte-compile-error-on-warn t)" \
+            -f batch-byte-compile evil-surround.el
+
+      - name: Load package
+        run: |
+          emacs --batch \
+            --eval "(setq package-user-dir (expand-file-name \".elpa\"))" \
+            --eval "(package-initialize)" \
+            --eval "(add-to-list 'load-path default-directory)" \
+            --eval "(require 'evil)" \
+            --eval "(require 'evil-surround)" \
+            --eval "(global-evil-surround-mode 1)"
