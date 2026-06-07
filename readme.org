@@ -230,7 +230,7 @@ Emphasize hello: =ysiw<em>=
 #+END_SRC
 
 Finally, let's try out visual mode. Press a capital V (for linewise
-visual mode) followed by =S<p class="important">=.
+visual mode) followed by ~S<p class="important">~.
 
 #+BEGIN_SRC html
   <p class="important">
