@@ -473,6 +473,7 @@ Becomes this:
                          (newline-and-indent))
                      (backward-char)
                      (evil-end-of-visual-line)
+					 (forward-char)
 				     (skip-syntax-backward " " (save-excursion (evil-beginning-of-visual-line) (point))))
                    (insert close)
                    (when (or force-new-line
