@@ -276,21 +276,21 @@
     (evil-test-buffer
      "QQw[o]rdQQ soup"
      (turn-on-evil-surround-mode)
-     (evil-define-text-object evil-surround-test-inner-QQ (count &optional beg end type)
+     (evil-define-text-object evil-surround-test-inner-QQ (count &optional beg end _type)
        "Test text object"
        :extend-selection nil
        (evil-select-paren "QQ" "QQ"
                           beg end type count nil))
-     (evil-define-text-object evil-surround-test-a-QQ (count &optional beg end type)
+     (evil-define-text-object evil-surround-test-a-QQ (count &optional beg end _type)
        :extend-selection nil
        (evil-select-paren "QQ" "QQ"
                           beg end type count t))
-     (evil-define-text-object evil-surround-test-inner-NN (count &optional beg end type)
+     (evil-define-text-object evil-surround-test-inner-NN (count &optional beg end _type)
        "Test text object"
        :extend-selection nil
        (evil-select-paren "NN" "NN"
                           beg end type count nil))
-     (evil-define-text-object evil-surround-test-a-NN (count &optional beg end type)
+     (evil-define-text-object evil-surround-test-a-NN (count &optional beg end _type)
        :extend-selection nil
        (evil-select-paren "NN" "NN"
                           beg end type count t))
