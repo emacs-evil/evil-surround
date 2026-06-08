@@ -327,10 +327,11 @@ between these overlays is what is deleted."
         (when inner (delete-overlay inner)))))))
 
 ;;;###autoload
-(defun evil-surround-change (char &optional outer inner)
+(defun evil-surround-change (char &optional outer inner force-new-line)
   "Change the surrounding delimiters represented by CHAR.
 Alternatively, the text to delete can be represented with the
-overlays OUTER and INNER, which are passed to `evil-surround-delete'."
+overlays OUTER and INNER, which are passed to `evil-surround-delete'.
+If FORCE-NEW-LINE is t pad with additional newlines"
   (interactive (evil-surround-input-char))
   (cond
    ((and outer inner)
@@ -339,16 +340,22 @@ overlays OUTER and INNER, which are passed to `evil-surround-delete'."
     (let ((key (evil-surround-read-char)))
       (evil-surround-region (overlay-start outer)
                             (overlay-end outer)
-                            nil (if (evil-surround-valid-char-p key) key char))))
+                            nil (if (evil-surround-valid-char-p key) key char) force-new-line)))
    (t
     (let* ((delims (evil-surround--get-delims char))
            (outer (evil-surround-outer-overlay delims char))
            (inner (evil-surround-inner-overlay delims char)))
       (unwind-protect
           (when (and outer inner)
-            (evil-surround-change char outer inner))
+            (evil-surround-change char outer inner force-new-line))
         (when outer (delete-overlay outer))
         (when inner (delete-overlay inner)))))))
+
+;;;###autoload
+(defun evil-Surround-change (char &optional outer inner)
+  "Call `evil-surround-change' with FORCE-NEW-LINE set to t."
+  (interactive (evil-surround-input-char))
+  (evil-surround-change char outer inner t))
 
 (defun evil-surround-interactive-setup ()
   (setq evil-inhibit-operator t)
@@ -412,12 +419,12 @@ Otherwise call `evil-surround-region'."
   (let ((p (point))) (list p p 'exclusive)))
 
 (evil-define-command evil-Surround-edit (operation)
-  "Like evil-surround-edit, but for surrounding with additional new-lines.
+  "Like `evil-surround-edit', but for surrounding with additional new-lines.
 
-It does nothing for change / delete."
+It does nothing for delete."
   (interactive (evil-surround-interactive-setup))
   (cond
-   ((eq operation 'change) nil)
+   ((eq operation 'change) (call-interactively 'evil-Surround-change))
    ((eq operation 'delete) nil)
    (t
     (evil-surround-setup-surround-line-operators)
